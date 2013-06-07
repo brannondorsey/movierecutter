@@ -39,29 +39,54 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::setSequences(){
+    int pixelThreshold = 25; //percent similarity each individual pixel needs to pass
+    float imgPercentNeededToPass = 80; //percent of pixels that must pass threshold test
+    int checkEveryIncrement = 10; //number of pixels before next pixel comparison
+    int maxPixDiffToPass = (pixelThreshold*255)/100; //converts percent to a max pixel change value
+
+    vector<long> cutFrames; 
+    myVideo.setFrame(1);
+    ofPixels prevPixels(myVideo.getPixelsRef());
     
-    float seqLength = myVideo.getTotalNumFrames()/numSequences;
-    for(int i = 0; i<numSequences; i++){
-        long currentStart = seqLength*i;
-        long currentStop;
-        if(i != numSequences-1){
-            currentStop = seqLength*(i+1);
-            currentStop--;
+    for(int i = 2; i<myVideo.getTotalNumFrames(); i++){
+        int numThatPass = 0; //holds number of pixels that pass
+        myVideo.setFrame(i); // start at first frame
+        ofPixelsRef pixelsRef = myVideo.getPixelsRef();
+            
+        //loop through each pixel in the image
+        for(int j = 0; j < myVideo.getWidth(); j += checkEveryIncrement){
+            for(int k = 0; k < myVideo.getHeight(); k += checkEveryIncrement){
+                float prevLightness = prevPixels.getColor(j,k).getLightness();
+                float lightness = pixelsRef.getColor(j,k).getLightness();
+//                if(prevLightness != lightness){
+//                    cout<<"the lightness is "<<lightness<<" and the previous lightness is "<<prevLightness<<endl;
+//                    cout<<"that is a difference of "<<ofToString(abs(prevLightness-lightness))<<endl;
+//                }
+                if(abs(prevLightness-lightness) <= maxPixDiffToPass){
+                    //cout<<"this value passes"<<endl;
+                    numThatPass++;
+                }
+            }
         }
-        else currentStop = myVideo.getTotalNumFrames(); //if it is the last index
-        sequences.push_back(Sequence(currentStart, currentStop));
-//        cout << "sequence "<< i <<" is as follows:"<<endl;
-//        cout << "start is "<< currentStart <<endl;
-//        cout << "stop is "<< currentStop <<endl;
-//        cout <<endl;
-    }
-    ofRandomize(sequences);
-    currentSeq = sequences[0];
-    myVideo.setFrame(currentSeq.start);
+        //cout<<"the num that pass is "<<ofToString(numThatPass)<<endl;
+        //cout<<"the first pixel of frame "<<ofToString(i)<<" is "<<ofToString(pixelsRef.getColor(1,1).getLightness())<<", the previous pixel was "<<ofToString(prevPixelsRef.getColor(1,1).getLightness())<<endl;
+        //cout<<ofToString(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)))<<" has to be greater than "<<ofToString(imgPercentNeededToPass/100)<<" to pass"<<endl;
+
+
+        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100){
+            //if enough pixels passed
+            cutFrames.push_back(i);
+            cout<<"found a cut at frame "<<ofToString(i)<<endl;
+        }
+        prevPixels = ofPixels(pixelsRef);
+        
+    }//go to next frame
+    
+    cout<<"there are "+ofToString(cutFrames.size())<<" cuts in this movie"<<endl;
 }
 
 bool testApp::needsNewSeq(){
-    if(myVideo.getCurrentFrame() == currentSeq.stop) return true;
+    if(myVideo.getCurrentFrame() >= currentSeq.stop) return true;
     else return false;
 }
 
