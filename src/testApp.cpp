@@ -13,6 +13,7 @@ void testApp::setup(){
     myVideo.loadMovie("black_dynomite.mp4");
     myVideo.setVolume(1.0);
     myVideo.setLoopState(OF_LOOP_NORMAL);
+    cout<<"the number of frames is "<<ofToString(myVideo.getTotalNumFrames())<<endl;
     setSequences();
     myVideo.play();
     
@@ -24,10 +25,10 @@ void testApp::update(){
         seqIndex++;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
-        if(seqIndex == sequences.size()){
-            ofRandomize(sequences);
-            seqIndex = 0;
-        }
+//        if(seqIndex == sequences.size()){
+//            ofRandomize(sequences);
+//            seqIndex = 0;
+//        }
     }
     myVideo.update();  
 }
@@ -58,31 +59,38 @@ void testApp::setSequences(){
             for(int k = 0; k < myVideo.getHeight(); k += checkEveryIncrement){
                 float prevLightness = prevPixels.getColor(j,k).getLightness();
                 float lightness = pixelsRef.getColor(j,k).getLightness();
-//                if(prevLightness != lightness){
-//                    cout<<"the lightness is "<<lightness<<" and the previous lightness is "<<prevLightness<<endl;
-//                    cout<<"that is a difference of "<<ofToString(abs(prevLightness-lightness))<<endl;
-//                }
                 if(abs(prevLightness-lightness) <= maxPixDiffToPass){
-                    //cout<<"this value passes"<<endl;
                     numThatPass++;
                 }
             }
         }
-        //cout<<"the num that pass is "<<ofToString(numThatPass)<<endl;
-        //cout<<"the first pixel of frame "<<ofToString(i)<<" is "<<ofToString(pixelsRef.getColor(1,1).getLightness())<<", the previous pixel was "<<ofToString(prevPixelsRef.getColor(1,1).getLightness())<<endl;
+
         //cout<<ofToString(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)))<<" has to be greater than "<<ofToString(imgPercentNeededToPass/100)<<" to pass"<<endl;
 
+        //if too many pixels were different
+        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100) cutFrames.push_back(i);
 
-        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100){
-            //if enough pixels passed
-            cutFrames.push_back(i);
-            cout<<"found a cut at frame "<<ofToString(i)<<endl;
-        }
         prevPixels = ofPixels(pixelsRef);
         
     }//go to next frame
     
-    cout<<"there are "+ofToString(cutFrames.size())<<" cuts in this movie"<<endl;
+    sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened
+    
+    //create sequences from cutFrames vector
+    for(int l = 0; l < cutFrames.size(); l++){
+        long start = cutFrames[l];
+        long stop;
+        if(l != cutFrames.size()-1){
+            stop = cutFrames[l+1]-1;
+        }
+        else{
+            stop = myVideo.getTotalNumFrames();
+        }
+        cout<<"the start frame is "<<start<<", the stop is "<<stop<<endl;
+        sequences.push_back(Sequence(start, stop));
+    }
+    ofRandomize(sequences);
+    cout<<"there are "+ofToString(sequences.size())<<" cuts in this movie"<<endl;
 }
 
 bool testApp::needsNewSeq(){
