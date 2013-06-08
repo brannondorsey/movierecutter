@@ -10,7 +10,7 @@ void testApp::setup(){
     
     numSequences = 100;
     seqIndex = 0;
-    myVideo.loadMovie("LOOP.mp4");
+    selectMovie();
     myVideo.setVolume(1.0);
     myVideo.setLoopState(OF_LOOP_NORMAL);
     cout<<"the number of frames is "<<ofToString(myVideo.getTotalNumFrames())<<endl;
@@ -37,6 +37,25 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     myVideo.draw(0,0);
+}
+
+//--------------------------------------------------------------
+void testApp::selectMovie(){
+    ofFileDialogResult selectedMovie = ofSystemLoadDialog("Select a Movie", false, "");
+    string moviePath = selectedMovie.getPath();
+    if ((moviePath.find(".mov") != string::npos) ||
+        (moviePath.find(".MOV") != string::npos) ||
+        (moviePath.find(".mp4") != string::npos) ||
+        (moviePath.find(".MP4") != string::npos)){
+        myVideo.loadMovie(moviePath);
+    }
+    else if(moviePath != ""){
+        ofSystemAlertDialog("Not a supported movie type");
+        selectMovie();
+    }
+    else{
+        ofExit(); //exit if canceled
+    }
 }
 
 //--------------------------------------------------------------
@@ -87,7 +106,7 @@ void testApp::setSequences(){
         else{
             stop = myVideo.getTotalNumFrames();
         }
-        cout<<"the start frame is "<<start<<", the stop is "<<stop<<endl;
+        //cout<<"the start frame is "<<start<<", the stop is "<<stop<<endl;
         sequences.push_back(Sequence(start, stop));
     }
     ofRandomize(sequences);

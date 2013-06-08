@@ -5,10 +5,6 @@
 
 class testApp : public ofBaseApp{
 	public:
-    
-        void setSequences();
-        bool needsNewSeq();
-    
 		void setup();
 		void update();
 		void draw();
@@ -23,9 +19,14 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
+        void selectMovie();
+        void setSequences();
+        bool needsNewSeq();
+    
         int numSequences;
         int seqIndex;
         bool isPaused;
+        string pathToMovie;
     
         Sequence currentSeq;
         vector <Sequence> sequences;
