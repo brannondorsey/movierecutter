@@ -10,7 +10,7 @@ void testApp::setup(){
     
     numSequences = 100;
     seqIndex = 0;
-    myVideo.loadMovie("black_dynomite.mp4");
+    myVideo.loadMovie("LOOP.mp4");
     myVideo.setVolume(1.0);
     myVideo.setLoopState(OF_LOOP_NORMAL);
     cout<<"the number of frames is "<<ofToString(myVideo.getTotalNumFrames())<<endl;
@@ -25,10 +25,11 @@ void testApp::update(){
         seqIndex++;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
-//        if(seqIndex == sequences.size()){
+        if(seqIndex == sequences.size()){
+            myVideo.stop();
 //            ofRandomize(sequences);
 //            seqIndex = 0;
-//        }
+        }
     }
     myVideo.update();  
 }
