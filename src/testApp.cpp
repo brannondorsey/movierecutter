@@ -7,13 +7,14 @@ void testApp::setup(){
     ofBackground(255, 255, 255);
     ofSetVerticalSync(true);
     isPaused = false;
+    seqReady = false;
     
     numSequences = 100;
     seqIndex = 0;
     selectMovie();
     myVideo.setVolume(1.0);
     myVideo.setLoopState(OF_LOOP_NORMAL);
-    cout<<"the number of frames is "<<ofToString(myVideo.getTotalNumFrames())<<endl;
+    gui.initTotalNumFrames(myVideo.getTotalNumFrames());
     setSequences();
     myVideo.play();
     
@@ -31,11 +32,13 @@ void testApp::update(){
 //            seqIndex = 0;
         }
     }
+    if(!seqReady) gui.updateLoading(totalChecked);
     myVideo.update();  
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    if(!seqReady) gui.displayLoading();
     myVideo.draw(0,0);
 }
 
@@ -64,11 +67,12 @@ void testApp::setSequences(){
     float imgPercentNeededToPass = 80; //percent of pixels that must pass threshold test
     int checkEveryIncrement = 10; //number of pixels before next pixel comparison
     int maxPixDiffToPass = (pixelThreshold*255)/100; //converts percent to a max pixel change value
+    totalChecked = 0;
 
     vector<long> cutFrames; 
     myVideo.setFrame(1);
     ofPixels prevPixels(myVideo.getPixelsRef());
-    
+        
     for(int i = 2; i<myVideo.getTotalNumFrames(); i++){
         int numThatPass = 0; //holds number of pixels that pass
         myVideo.setFrame(i); // start at first frame
@@ -91,7 +95,7 @@ void testApp::setSequences(){
         if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100) cutFrames.push_back(i);
 
         prevPixels = ofPixels(pixelsRef);
-        
+        totalChecked++;
     }//go to next frame
     
     sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened

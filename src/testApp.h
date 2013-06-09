@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "sequence.h"
+#include "gui.h"
 
 class testApp : public ofBaseApp{
 	public:
@@ -25,11 +26,15 @@ class testApp : public ofBaseApp{
     
         int numSequences;
         int seqIndex;
+        long totalChecked;
         bool isPaused;
+        bool seqReady;
         string pathToMovie;
     
+        Gui gui;
         Sequence currentSeq;
         vector <Sequence> sequences;
         ofVideoPlayer myVideo;
         
+
 };
