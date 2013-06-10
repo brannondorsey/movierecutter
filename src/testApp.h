@@ -35,8 +35,13 @@ class testApp : public ofBaseApp{
         long totalChecked;
         float imgPercentNeededToPass;
         float aspectRatio;
+    
+        int fastForward;
+        int rewind;
         bool isPaused;
         bool seqReady;
+    
+    
         string pathToMovie;
     
         Gui gui;

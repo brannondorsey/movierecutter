@@ -6,6 +6,7 @@ void testApp::setup(){
     
     ofBackground(0, 0, 0);
     ofSetVerticalSync(true);
+    ofEnableSmoothing();
     isPaused = false;
     seqReady = false;
     
@@ -47,6 +48,9 @@ void testApp::draw(){
         float width = ofGetWidth();
         float height = ofGetWidth()/aspectRatio;
         myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
+        gui.displayButtons(mouseX, mouseY);
+        gui.displayTimeline();
+        if(isPaused)gui.displayPlayIcon();
     }
     else{
         gui.displayLoading();
@@ -106,14 +110,14 @@ void testApp::setSequences(){
         //cout<<ofToString(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)))<<" has to be greater than "<<ofToString(imgPercentNeededToPass/100)<<" to pass"<<endl;
 
         //if too many pixels were different
-        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100){cout<<"I pushed one back"<<endl; cutFrames.push_back(checkFrameIndex);}
+        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100) cutFrames.push_back(checkFrameIndex);
 
         prevPixels = ofPixels(pixelsRef);
         totalChecked++;
     }//go to next frame
     
     if(checkFrameIndex >= myVideo.getTotalNumFrames()){
-        cout<<"there are "+ofToString(sequences.size())<<" cuts in this movie"<<endl;
+        cout<<"there are "+ofToString(cutFrames.size())<<" cuts in this movie"<<endl;
         if(cutFrames.size() > 0){
             sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened
             
@@ -172,7 +176,45 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
+    
+    //if left click
+    if(button == 0){
+        if((gui.playButtonRect.inside(x, y)) &&
+            (isPaused)){
+            isPaused = false;
+            myVideo.setPaused(isPaused);
+        }
+        if(gui.numButtons != 0){
+            for(int i = 0; i < gui.numButtons; i++){
+                if(gui.buttonRects[i].inside(x, y)){
+                    switch(i){
+                        case 0: //stop button
+                            break;
+                        case 1: //pause button
+                            isPaused = true;
+                            myVideo.setPaused(isPaused);
+                            rewind = 0; 
+                            fastForward = 0;
+                            break;
+                        case 2: //play button
+                            isPaused = false;
+                            myVideo.setPaused(isPaused);
+                            rewind = 0;
+                            fastForward = 0;
+                            break;
+                        case 3: //rewind button
+                            rewind++;
+                            fastForward = 0;
+                            break;
+                        case 4: //fastforward button
+                            fastForward++;
+                            rewind = 0;
+                            break;
+                    }
+                }
+            }
+        }
+    }
 }
 
 //--------------------------------------------------------------

@@ -8,11 +8,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "src/testApp.cpp"
-         timestampString = "392510277.176872"
+         timestampString = "392581430.321845"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "60"
-         endingLineNumber = "60"
+         startingLineNumber = "64"
+         endingLineNumber = "64"
          landmarkName = "testApp::selectMovie()"
          landmarkType = "5">
       </FileBreakpoint>
