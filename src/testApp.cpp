@@ -4,25 +4,27 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
-    ofBackground(255, 255, 255);
+    ofBackground(0, 0, 0);
     ofSetVerticalSync(true);
     isPaused = false;
     seqReady = false;
     
     numSequences = 100;
     seqIndex = 0;
+    checkFrameIndex = 2;
+    
     selectMovie();
+    aspectRatio = myVideo.getWidth()/myVideo.getHeight();
     myVideo.setVolume(1.0);
     myVideo.setLoopState(OF_LOOP_NORMAL);
     gui.initTotalNumFrames(myVideo.getTotalNumFrames());
-    setSequences();
-    myVideo.play();
-    
+    initSequenceVars();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    if(needsNewSeq()){
+    if((seqReady) &&
+       (needsNewSeq())){
         seqIndex++;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
@@ -32,14 +34,23 @@ void testApp::update(){
 //            seqIndex = 0;
         }
     }
-    if(!seqReady) gui.updateLoading(totalChecked);
-    myVideo.update();  
+    if(seqReady) myVideo.update();
+    else{
+        setSequences();
+        gui.updateLoading(totalChecked);
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    if(!seqReady) gui.displayLoading();
-    myVideo.draw(0,0);
+    if(seqReady){
+        float width = ofGetWidth();
+        float height = ofGetWidth()/aspectRatio;
+        myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
+    }
+    else{
+        gui.displayLoading();
+    }    
 }
 
 //--------------------------------------------------------------
@@ -62,20 +73,24 @@ void testApp::selectMovie(){
 }
 
 //--------------------------------------------------------------
-void testApp::setSequences(){
-    int pixelThreshold = 25; //percent similarity each individual pixel needs to pass
-    float imgPercentNeededToPass = 80; //percent of pixels that must pass threshold test
-    int checkEveryIncrement = 10; //number of pixels before next pixel comparison
-    int maxPixDiffToPass = (pixelThreshold*255)/100; //converts percent to a max pixel change value
+void testApp::initSequenceVars(){
+    pixelThreshold = 25; //percent similarity each individual pixel needs to pass
+    imgPercentNeededToPass = 80; //percent of pixels that must pass threshold test
+    checkEveryIncrement = 10; //number of pixels before next pixel comparison
+    maxPixDiffToPass = (pixelThreshold*255)/100; //converts percent to a max pixel change value
+    numCheckEachFrame = 40; //number of movie frames to set each frame of the program
     totalChecked = 0;
-
-    vector<long> cutFrames; 
     myVideo.setFrame(1);
-    ofPixels prevPixels(myVideo.getPixelsRef());
-        
-    for(int i = 2; i<myVideo.getTotalNumFrames(); i++){
+    prevPixels = ofPixels(myVideo.getPixelsRef());
+}
+
+void testApp::setSequences(){
+    
+    int stopThisCheck = checkFrameIndex+numCheckEachFrame;
+    
+    for(; checkFrameIndex<stopThisCheck; checkFrameIndex++){
         int numThatPass = 0; //holds number of pixels that pass
-        myVideo.setFrame(i); // start at first frame
+        myVideo.setFrame(checkFrameIndex); // start at first frame
         ofPixelsRef pixelsRef = myVideo.getPixelsRef();
             
         //loop through each pixel in the image
@@ -88,33 +103,41 @@ void testApp::setSequences(){
                 }
             }
         }
-
         //cout<<ofToString(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)))<<" has to be greater than "<<ofToString(imgPercentNeededToPass/100)<<" to pass"<<endl;
 
         //if too many pixels were different
-        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100) cutFrames.push_back(i);
+        if(numThatPass/(myVideo.getWidth()*myVideo.getHeight()/(checkEveryIncrement*checkEveryIncrement)) <= imgPercentNeededToPass/100){cout<<"I pushed one back"<<endl; cutFrames.push_back(checkFrameIndex);}
 
         prevPixels = ofPixels(pixelsRef);
         totalChecked++;
     }//go to next frame
     
-    sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened
-    
-    //create sequences from cutFrames vector
-    for(int l = 0; l < cutFrames.size(); l++){
-        long start = cutFrames[l];
-        long stop;
-        if(l != cutFrames.size()-1){
-            stop = cutFrames[l+1]-1;
+    if(checkFrameIndex >= myVideo.getTotalNumFrames()){
+        cout<<"there are "+ofToString(sequences.size())<<" cuts in this movie"<<endl;
+        if(cutFrames.size() > 0){
+            sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened
+            
+            //create sequences from cutFrames vector
+            for(int l = 0; l < cutFrames.size(); l++){
+                long start = cutFrames[l];
+                long stop;
+                if(l != cutFrames.size()-1){
+                    stop = cutFrames[l+1]-1;
+                }
+                else{
+                    stop = myVideo.getTotalNumFrames();
+                }
+                sequences.push_back(Sequence(start, stop));
+            }
+            ofRandomize(sequences);
+            seqReady = true; //sequences are now ready to be played
+            myVideo.play(); //play the video
         }
         else{
-            stop = myVideo.getTotalNumFrames();
+            ofSystemAlertDialog("No cuts detected. Choose another movie.");
+            setup();
         }
-        //cout<<"the start frame is "<<start<<", the stop is "<<stop<<endl;
-        sequences.push_back(Sequence(start, stop));
     }
-    ofRandomize(sequences);
-    cout<<"there are "+ofToString(sequences.size())<<" cuts in this movie"<<endl;
 }
 
 bool testApp::needsNewSeq(){

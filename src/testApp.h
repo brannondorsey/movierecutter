@@ -21,12 +21,20 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
         void selectMovie();
+        void initSequenceVars();
         void setSequences();
         bool needsNewSeq();
     
         int numSequences;
         int seqIndex;
+        int checkFrameIndex;
+        int pixelThreshold;
+        int checkEveryIncrement;
+        int maxPixDiffToPass;
+        int numCheckEachFrame;
         long totalChecked;
+        float imgPercentNeededToPass;
+        float aspectRatio;
         bool isPaused;
         bool seqReady;
         string pathToMovie;
@@ -34,7 +42,9 @@ class testApp : public ofBaseApp{
         Gui gui;
         Sequence currentSeq;
         vector <Sequence> sequences;
+        vector<long> cutFrames;
         ofVideoPlayer myVideo;
+        ofPixels prevPixels;
         
 
 };
