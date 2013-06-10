@@ -1,5 +1,6 @@
 #pragma once
 #include "ofMain.h"
+#include "sequence.h"
 
 class Gui
 {
@@ -12,7 +13,7 @@ public:
     void displayLoading();
     void updateButtons();
     void displayButtons(int mx, int my);
-    void updateTimeline();
+    void updateTimeline(int seqNumber, int totalSeqs);
     void displayTimeline();
     void displayPlayIcon();
 
@@ -27,6 +28,8 @@ public:
     float loadingRectMaxWidth;
     float amountLoadedMapped;
     float timelineStartX;
+    float timelineWatchPointX;
+    float timelineWidth;
     ofRectangle playButtonRect;
     ofRectangle buttonRects[5];
     ofImage buttonImages[5];

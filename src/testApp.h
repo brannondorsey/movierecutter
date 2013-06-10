@@ -40,6 +40,7 @@ class testApp : public ofBaseApp{
         int rewind;
         bool isPaused;
         bool seqReady;
+        bool isFinished;
     
     
         string pathToMovie;
@@ -50,6 +51,5 @@ class testApp : public ofBaseApp{
         vector<long> cutFrames;
         ofVideoPlayer myVideo;
         ofPixels prevPixels;
-        
-
+    
 };

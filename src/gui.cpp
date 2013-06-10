@@ -1,5 +1,6 @@
 #include "gui.h"
 #include "ofMain.h"
+#include "sequence.h"
 
 Gui::Gui(){
     loadingRectStartX = ofGetWidth()/4;
@@ -68,14 +69,19 @@ void Gui::displayButtons(int mx, int my){
 }
 
 //--------------------------------------------------------------
-void Gui::updateTimeline(){
-    
+void Gui::updateTimeline(int seqNumber, int totalSeqs){
+    timelineWatchPointX = ofMap(seqNumber, 0, totalSeqs, timelineStartX, timelineStartX+timelineWidth);
 }
 
 //--------------------------------------------------------------
 void Gui::displayTimeline(){
     //notice: some of the vars that displayTimeline uses are instantiated in displayButtons
-    float timelineWidth = ofGetWidth()-timelineStartX-buttonMargin;
+    int timelineBarWidth = 5;
+    int timelineBarOverhang = 5; //amount top and bottom overhangs timeline by
+    
+    
+    //draw timeline
+    timelineWidth = ofGetWidth()-timelineStartX-buttonMargin;
     ofSetColor(0);
     ofFill();
     ofRectangle timeline = ofRectangle(timelineStartX, buttonsY, timelineWidth, buttonSize);
@@ -83,6 +89,13 @@ void Gui::displayTimeline(){
     
     ofSetColor(255); //reset color and fill
     ofNoFill();
+    
+    //draw watch point bar
+    ofFill();
+    ofRectangle timelineBar(timelineWatchPointX, buttonsY-timelineBarOverhang, timelineBarWidth, buttonSize+timelineBarOverhang*2);
+    ofRectRounded(timelineBar, 2);
+    ofNoFill();
+
 }
 
 //--------------------------------------------------------------

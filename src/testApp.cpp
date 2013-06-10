@@ -8,6 +8,7 @@ void testApp::setup(){
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     isPaused = false;
+    isFinished = false;
     seqReady = false;
     
     numSequences = 100;
@@ -25,15 +26,17 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
     if((seqReady) &&
-       (needsNewSeq())){
+       (needsNewSeq()) &&
+       (!isFinished)){
         seqIndex++;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
-        if(seqIndex == sequences.size()){
-            myVideo.stop();
-//            ofRandomize(sequences);
-//            seqIndex = 0;
-        }
+        gui.updateTimeline(seqIndex, sequences.size());
+    }
+    if((seqReady) &&
+       (seqIndex == sequences.size())){
+        myVideo.stop();
+        isFinished = true;
     }
     if(seqReady) myVideo.update();
     else{
@@ -47,7 +50,7 @@ void testApp::draw(){
     if(seqReady){
         float width = ofGetWidth();
         float height = ofGetWidth()/aspectRatio;
-        myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
+        if(!isFinished) myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
         gui.displayButtons(mouseX, mouseY);
         gui.displayTimeline();
         if(isPaused)gui.displayPlayIcon();
