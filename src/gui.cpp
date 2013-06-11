@@ -9,11 +9,14 @@ Gui::Gui(){
     loadingRectMaxWidth = ofGetWidth()/2;
     timelineStartX = 0;
     numButtons = 5;
+    isShowing = false; 
     string buttonImageNames [] = {"stop", "pause", "play", "rewind", "fastforward"};
     for(int i = 0; i < numButtons; i++){
         buttonImages[i].loadImage("images/"+buttonImageNames[i]+".png");
     }
     ofEnableAlphaBlending();
+    showGuiTimer.setup(0, false); //setup timer. Give it no delay
+    showGuiTimer.setTimer(2000); //set the timer
 }
 
 //--------------------------------------------------------------
@@ -106,4 +109,18 @@ void Gui::displayPlayIcon(){
     ofSetColor(255, 120);
     playButtonImage.draw(playButtonRect);
     ofSetColor(255);
+}
+
+//--------------------------------------------------------------
+void Gui::showGui(){
+    isShowing = true;
+    showGuiTimer.startTimer();
+}
+
+//--------------------------------------------------------------
+void Gui::checkTimer(){
+    if (showGuiTimer.isTimerFinished()){
+        isShowing = false;
+        showGuiTimer.reset(); //dont forget to reset
+    }
 }

@@ -38,7 +38,10 @@ void testApp::update(){
         myVideo.stop();
         isFinished = true;
     }
-    if(seqReady) myVideo.update();
+    if(seqReady){
+        myVideo.update();
+        gui.checkTimer();
+    }
     else{
         setSequences();
         gui.updateLoading(totalChecked);
@@ -51,8 +54,10 @@ void testApp::draw(){
         float width = ofGetWidth();
         float height = ofGetWidth()/aspectRatio;
         if(!isFinished) myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
-        gui.displayButtons(mouseX, mouseY);
-        gui.displayTimeline();
+        if(gui.isShowing){
+            gui.displayButtons(mouseX, mouseY);
+            gui.displayTimeline();
+        }
         if(isPaused)gui.displayPlayIcon();
     }
     else{
@@ -169,7 +174,7 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y){
-
+    gui.showGui();
 }
 
 //--------------------------------------------------------------
