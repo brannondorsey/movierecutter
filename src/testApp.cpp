@@ -17,7 +17,7 @@ void testApp::setup(){
     
     selectMovie();
     aspectRatio = myVideo.getWidth()/myVideo.getHeight();
-    myVideo.setVolume(1.0);
+    myVideo.setVolume(0.0); //change this to 1.0
     myVideo.setLoopState(OF_LOOP_NORMAL);
     gui.initTotalNumFrames(myVideo.getTotalNumFrames());
     initSequenceVars();
@@ -126,23 +126,17 @@ void testApp::setSequences(){
             //cout<<"got here! The last frame of the first sequence set is "<<ofToString(cutFrames[0]-1)<<endl;
 
             //create sequences from cutFrames vector
-            for(int l = 0; l < cutFrames.size(); l++){
+            for(int l = 0; l < cutFrames.size()-1; l++){
                 long start = cutFrames[l];
-                long stop;
-                if(l != cutFrames.size()-1){
-                    stop = cutFrames[l+1]-1;
-                }
-                else{
-                    stop = myVideo.getTotalNumFrames();
-                    cout<<"assigned the "<<l<<" sequence.stop to "<<myVideo.getTotalNumFrames()<<endl;
-                    cout<<"that values start is  "<<start<<endl;
-                }
+                long stop = cutFrames[l+1]-1;
+                if(l == cutFrames.size()-2) stop = cutFrames[l+1]; //include last frame if sequence is last in movie
                 sequences.push_back(Sequence(start, stop));
             }
+            //uncomment below for debugging
+            //            for(int index = 0; index < sequences.size(); index++){
+            //                cout<<"sequence "<<index<<" | start: "<<sequences[index].start<<" stop: "<<sequences[index].stop<<endl;
+            //            }
             ofRandomize(sequences);
-            for(int index = 0; index < sequences.size(); index++){
-                cout<<"sequence "<<index<<" | start: "<<sequences[index].start<<" stop: "<<sequences[index].stop<<endl;
-            }
             seqReady = true; //sequences are now ready to be played
             myVideo.play(); //play the video
         }
