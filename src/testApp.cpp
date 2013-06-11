@@ -122,8 +122,9 @@ void testApp::setSequences(){
     if(checkFrameIndex >= myVideo.getTotalNumFrames()){
         cout<<"there are "+ofToString(cutFrames.size())<<" cuts in this movie"<<endl;
         if(cutFrames.size() > 0){
-            sequences.push_back(Sequence(0, cutFrames[0]-1)); //set first sequence before a cut happened
-            
+            sequences.push_back(Sequence(1, cutFrames[0]-1)); //set first sequence before a cut happened
+            //cout<<"got here! The last frame of the first sequence set is "<<ofToString(cutFrames[0]-1)<<endl;
+
             //create sequences from cutFrames vector
             for(int l = 0; l < cutFrames.size(); l++){
                 long start = cutFrames[l];
@@ -133,10 +134,15 @@ void testApp::setSequences(){
                 }
                 else{
                     stop = myVideo.getTotalNumFrames();
+                    cout<<"assigned the "<<l<<" sequence.stop to "<<myVideo.getTotalNumFrames()<<endl;
+                    cout<<"that values start is  "<<start<<endl;
                 }
                 sequences.push_back(Sequence(start, stop));
             }
             ofRandomize(sequences);
+            for(int index = 0; index < sequences.size(); index++){
+                cout<<"sequence "<<index<<" | start: "<<sequences[index].start<<" stop: "<<sequences[index].stop<<endl;
+            }
             seqReady = true; //sequences are now ready to be played
             myVideo.play(); //play the video
         }
