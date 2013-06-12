@@ -1,4 +1,5 @@
 #include "ofxXmlSettings.h"
+#include "sequence.h"
 
 class DataHandler{
   public:
@@ -8,8 +9,9 @@ class DataHandler{
     DataHandler(string _filePath);
     
     void savePlayPoint(long currentFrame);
-    void loadSequences();
-    void saveSequences();
+    void saveSequences(const vector<Sequence> & sequences);
+    void loadSequences(vector<Sequence> & sequences);
+    bool seqFileExists();
     long getPlayPoint();
     
     string fileName;

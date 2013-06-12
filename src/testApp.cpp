@@ -43,9 +43,16 @@ void testApp::update(){
         myVideo.update();
         gui.checkTimer();
     }
-    else{
+    //if sequence file does not exist set it and show loading
+    else if(!dataHand.seqFileExists()){
         setSequences();
         gui.updateLoading(totalChecked);
+    }
+    //if sequence file exists load it, play it, and set seq to ready
+    else{
+        dataHand.loadSequences(sequences);
+        seqReady = true;
+        myVideo.play();
     }
 }
 
@@ -143,8 +150,7 @@ void testApp::setSequences(){
             //                cout<<"sequence "<<index<<" | start: "<<sequences[index].start<<" stop: "<<sequences[index].stop<<endl;
             //            }
             ofRandomize(sequences);
-            seqReady = true; //sequences are now ready to be played
-            myVideo.play(); //play the video
+            dataHand.saveSequences(sequences);
         }
         else{
             ofSystemAlertDialog("No cuts detected. Choose another movie.");
