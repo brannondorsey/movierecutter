@@ -20,25 +20,29 @@ void testApp::setup(){
     myVideo.setVolume(0.0); //change this to 1.0
     myVideo.setLoopState(OF_LOOP_NORMAL);
     gui.initTotalNumFrames(myVideo.getTotalNumFrames());
-    playPoint = dataHand.getPlayPoint();
     initSequenceVars();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+    //if the movie is ready, playing, and needs a new sequence
     if((seqReady) &&
        (needsNewSeq()) &&
        (!isFinished)){
         seqIndex++;
+        cout<<"the sequence index was set to "<<seqIndex<<endl;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
+        dataHand.savePlayPoint(currentSeq.start); //save frame to .playpoint file
         gui.updateTimeline(seqIndex, sequences.size());
     }
+    //if the movie is over
     if((seqReady) &&
        (seqIndex == sequences.size())){
         myVideo.stop();
         isFinished = true;
     }
+    //if the sequences are ready
     if(seqReady){
         myVideo.update();
         gui.checkTimer();
@@ -52,7 +56,12 @@ void testApp::update(){
     else{
         dataHand.loadSequences(sequences);
         seqReady = true;
+        seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
+        currentSeq = sequences[seqIndex]; // set the loaded sequence
+        myVideo.setFrame(currentSeq.start); // and the play point
+        gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
         myVideo.play();
+        
     }
 }
 

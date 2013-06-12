@@ -1,0 +1,5 @@
++ add replay button when movie stops
++ add gui selection menu if movie has been played before. Give the options to resume, start over, or recut and start over. 
++ make stop button work (probably exit the program or something).
++ make ffwrd and rwnd work to some degree or remove them
++ fix timeline so that it updates correctly. 

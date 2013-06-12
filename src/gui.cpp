@@ -17,6 +17,8 @@ Gui::Gui(){
     ofEnableAlphaBlending();
     showGuiTimer.setup(0, false); //setup timer. Give it no delay
     showGuiTimer.setTimer(2000); //set the timer
+    displayButtons(0, 0); //these two lines of code are smelly because they don't actually do what they say that they do here. They are used to init two vars used in the updateTimeline() mapping process.
+    displayTimeline();
 }
 
 //--------------------------------------------------------------
@@ -74,6 +76,12 @@ void Gui::displayButtons(int mx, int my){
 //--------------------------------------------------------------
 void Gui::updateTimeline(int seqNumber, int totalSeqs){
     timelineWatchPointX = ofMap(seqNumber, 0, totalSeqs, timelineStartX, timelineStartX+timelineWidth);
+    cout<<"the seqNumber is "<<seqNumber<<endl;
+    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
+    cout<<"the min map val is "<<timelineStartX<<endl;
+    cout<<"the max map val is "<<ofToString(timelineStartX+timelineWidth)<<endl;
+    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
+    cout<<"the timelineWatchPointX val is "<<timelineWatchPointX<<endl;
 }
 
 //--------------------------------------------------------------

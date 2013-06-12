@@ -34,7 +34,6 @@ class testApp : public ofBaseApp{
         int maxPixDiffToPass;
         int numCheckEachFrame;
         long totalChecked;
-        long playPoint; 
         int fastForward;
         int rewind;
         float imgPercentNeededToPass;
