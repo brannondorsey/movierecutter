@@ -28,6 +28,11 @@
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
 		F81213D91763DA1400D627F1 /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F81213D81763DA1400D627F1 /* gui.cpp */; };
+		F890F7C017680185008763C1 /* ofxTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7BE17680185008763C1 /* ofxTimer.cpp */; };
+		F890F7CA176801D1008763C1 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C3176801D1008763C1 /* tinyxml.cpp */; };
+		F890F7CB176801D1008763C1 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C5176801D1008763C1 /* tinyxmlerror.cpp */; };
+		F890F7CC176801D1008763C1 /* tinyxmlparser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C6176801D1008763C1 /* tinyxmlparser.cpp */; };
+		F890F7CD176801D1008763C1 /* ofxXmlSettings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C8176801D1008763C1 /* ofxXmlSettings.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +91,14 @@
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		F81213D71763D92F00D627F1 /* gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gui.h; sourceTree = "<group>"; };
 		F81213D81763DA1400D627F1 /* gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gui.cpp; sourceTree = "<group>"; };
+		F890F7BE17680185008763C1 /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
+		F890F7BF17680185008763C1 /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
+		F890F7C3176801D1008763C1 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
+		F890F7C4176801D1008763C1 /* tinyxml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tinyxml.h; sourceTree = "<group>"; };
+		F890F7C5176801D1008763C1 /* tinyxmlerror.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlerror.cpp; sourceTree = "<group>"; };
+		F890F7C6176801D1008763C1 /* tinyxmlparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxmlparser.cpp; sourceTree = "<group>"; };
+		F890F7C8176801D1008763C1 /* ofxXmlSettings.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxXmlSettings.cpp; sourceTree = "<group>"; };
+		F890F7C9176801D1008763C1 /* ofxXmlSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxXmlSettings.h; sourceTree = "<group>"; };
 		F8A1B704175A438300B64B66 /* sequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sequence.h; sourceTree = "<group>"; };
 		F8CF32DB175C3E89006D9EF3 /* emptyExampleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = emptyExampleDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -121,6 +134,8 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				F890F7C1176801D1008763C1 /* ofxXmlSettings */,
+				F890F7BD17680185008763C1 /* ofxTimer */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -205,6 +220,44 @@
 				E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */,
 			);
 			name = openFrameworks;
+			sourceTree = "<group>";
+		};
+		F890F7BD17680185008763C1 /* ofxTimer */ = {
+			isa = PBXGroup;
+			children = (
+				F890F7BE17680185008763C1 /* ofxTimer.cpp */,
+				F890F7BF17680185008763C1 /* ofxTimer.h */,
+			);
+			path = ofxTimer;
+			sourceTree = "<group>";
+		};
+		F890F7C1176801D1008763C1 /* ofxXmlSettings */ = {
+			isa = PBXGroup;
+			children = (
+				F890F7C2176801D1008763C1 /* libs */,
+				F890F7C7176801D1008763C1 /* src */,
+			);
+			path = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		F890F7C2176801D1008763C1 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				F890F7C3176801D1008763C1 /* tinyxml.cpp */,
+				F890F7C4176801D1008763C1 /* tinyxml.h */,
+				F890F7C5176801D1008763C1 /* tinyxmlerror.cpp */,
+				F890F7C6176801D1008763C1 /* tinyxmlparser.cpp */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		F890F7C7176801D1008763C1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				F890F7C8176801D1008763C1 /* ofxXmlSettings.cpp */,
+				F890F7C9176801D1008763C1 /* ofxXmlSettings.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +347,11 @@
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				F81213D91763DA1400D627F1 /* gui.cpp in Sources */,
+				F890F7C017680185008763C1 /* ofxTimer.cpp in Sources */,
+				F890F7CA176801D1008763C1 /* tinyxml.cpp in Sources */,
+				F890F7CB176801D1008763C1 /* tinyxmlerror.cpp in Sources */,
+				F890F7CC176801D1008763C1 /* tinyxmlparser.cpp in Sources */,
+				F890F7CD176801D1008763C1 /* ofxXmlSettings.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
