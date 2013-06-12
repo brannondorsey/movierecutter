@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "sequence.h"
 #include "gui.h"
+#include "DataHandler.h"
 
 class testApp : public ofBaseApp{
 	public:
@@ -33,19 +34,18 @@ class testApp : public ofBaseApp{
         int maxPixDiffToPass;
         int numCheckEachFrame;
         long totalChecked;
-        float imgPercentNeededToPass;
-        float aspectRatio;
-    
+        long playPoint; 
         int fastForward;
         int rewind;
+        float imgPercentNeededToPass;
+        float aspectRatio;
         bool isPaused;
         bool seqReady;
         bool isFinished;
-    
-    
-        string pathToMovie;
+        string moviePath;
     
         Gui gui;
+        DataHandler dataHand;
         Sequence currentSeq;
         vector <Sequence> sequences;
         vector<long> cutFrames;

@@ -28,6 +28,7 @@
 		E7E077E815D3B6510020DFD4 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7E077E715D3B6510020DFD4 /* QTKit.framework */; };
 		E7F985F815E0DEA3003869B5 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7F985F515E0DE99003869B5 /* Accelerate.framework */; };
 		F81213D91763DA1400D627F1 /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F81213D81763DA1400D627F1 /* gui.cpp */; };
+		F81712D81768211D0013565A /* DataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F81712D71768211D0013565A /* DataHandler.cpp */; };
 		F890F7C017680185008763C1 /* ofxTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7BE17680185008763C1 /* ofxTimer.cpp */; };
 		F890F7CA176801D1008763C1 /* tinyxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C3176801D1008763C1 /* tinyxml.cpp */; };
 		F890F7CB176801D1008763C1 /* tinyxmlerror.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F890F7C5176801D1008763C1 /* tinyxmlerror.cpp */; };
@@ -91,6 +92,8 @@
 		E7F985F515E0DE99003869B5 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = /System/Library/Frameworks/Accelerate.framework; sourceTree = "<absolute>"; };
 		F81213D71763D92F00D627F1 /* gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gui.h; sourceTree = "<group>"; };
 		F81213D81763DA1400D627F1 /* gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gui.cpp; sourceTree = "<group>"; };
+		F81712D617681FA10013565A /* DataHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataHandler.h; sourceTree = "<group>"; };
+		F81712D71768211D0013565A /* DataHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataHandler.cpp; sourceTree = "<group>"; };
 		F890F7BE17680185008763C1 /* ofxTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxTimer.cpp; sourceTree = "<group>"; };
 		F890F7BF17680185008763C1 /* ofxTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxTimer.h; sourceTree = "<group>"; };
 		F890F7C3176801D1008763C1 /* tinyxml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tinyxml.cpp; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 				F8A1B704175A438300B64B66 /* sequence.h */,
 				F81213D81763DA1400D627F1 /* gui.cpp */,
 				F81213D71763D92F00D627F1 /* gui.h */,
+				F81712D71768211D0013565A /* DataHandler.cpp */,
+				F81712D617681FA10013565A /* DataHandler.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -352,6 +357,7 @@
 				F890F7CB176801D1008763C1 /* tinyxmlerror.cpp in Sources */,
 				F890F7CC176801D1008763C1 /* tinyxmlparser.cpp in Sources */,
 				F890F7CD176801D1008763C1 /* ofxXmlSettings.cpp in Sources */,
+				F81712D81768211D0013565A /* DataHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

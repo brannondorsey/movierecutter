@@ -1,5 +1,4 @@
 #include "testApp.h"
-#include <iostream.h>
 
 //--------------------------------------------------------------
 void testApp::setup(){
@@ -16,10 +15,12 @@ void testApp::setup(){
     checkFrameIndex = 2;
     
     selectMovie();
+    dataHand = DataHandler(moviePath);
     aspectRatio = myVideo.getWidth()/myVideo.getHeight();
     myVideo.setVolume(0.0); //change this to 1.0
     myVideo.setLoopState(OF_LOOP_NORMAL);
     gui.initTotalNumFrames(myVideo.getTotalNumFrames());
+    playPoint = dataHand.getPlayPoint();
     initSequenceVars();
 }
 
@@ -68,7 +69,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::selectMovie(){
     ofFileDialogResult selectedMovie = ofSystemLoadDialog("Select a Movie", false, "");
-    string moviePath = selectedMovie.getPath();
+    moviePath = selectedMovie.getPath();
     if ((moviePath.find(".mov") != string::npos) ||
         (moviePath.find(".MOV") != string::npos) ||
         (moviePath.find(".mp4") != string::npos) ||
