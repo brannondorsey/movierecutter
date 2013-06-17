@@ -6,11 +6,11 @@ void testApp::setup(){
     ofBackground(0, 0, 0);
     ofSetVerticalSync(true);
     ofEnableSmoothing();
+    ofEnableAlphaBlending();
     isPaused = false;
     isFinished = false;
     seqReady = false;
     
-    numSequences = 100;
     seqIndex = 0;
     checkFrameIndex = 2;
     
@@ -52,16 +52,35 @@ void testApp::update(){
         setSequences();
         gui.updateLoading(totalChecked);
     }
-    //if sequence file exists load it, play it, and set seq to ready
+    //if sequence file exists load it, play it, set seq to ready, pause it, and display resume menu
     else{
-        dataHand.loadSequences(sequences);
-        seqReady = true;
-        seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
-        currentSeq = sequences[seqIndex]; // set the loaded sequence
-        myVideo.setFrame(currentSeq.start); // and the play point
-        gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
-        myVideo.play();
-        
+        isPaused = true;
+        myVideo.setPaused(isPaused);
+        gui.resumeMenuShowing = true;
+        //if there has been a resume menu selection
+        if(gui.resumeMenuSelection != ""){
+            //if selection was resume or start over
+            if(gui.resumeMenuSelection != gui.resumeButtonValues[2]){
+                dataHand.loadSequences(sequences);
+                //if selection was resume load previous point and play it
+                if(gui.resumeMenuSelection == gui.resumeButtonValues[0]){
+                    seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
+                    currentSeq = sequences[seqIndex]; // set the loaded sequence
+                }
+                //if selection was start over
+                else currentSeq = sequences[0];
+                seqReady = true;
+                myVideo.setFrame(currentSeq.start); // and the play point
+                gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
+                myVideo.play();
+                isPaused = false;
+                myVideo.setPaused(isPaused);
+            }
+            //if the selection was recut and start over
+            else{
+                
+            }
+        }
     }
 }
 
@@ -79,12 +98,14 @@ void testApp::draw(){
     }
     else{
         gui.displayLoading();
-    }    
+    }
+    gui.displayResumeMenu(mouseX, mouseY);
 }
-
 //--------------------------------------------------------------
 void testApp::selectMovie(){
+    cout<<"I got here"<<endl;
     ofFileDialogResult selectedMovie = ofSystemLoadDialog("Select a Movie", false, "");
+    cout<<"I also got here"<<endl;
     moviePath = selectedMovie.getPath();
     if ((moviePath.find(".mov") != string::npos) ||
         (moviePath.find(".MOV") != string::npos) ||
@@ -207,6 +228,14 @@ void testApp::mousePressed(int x, int y, int button){
             (isPaused)){
             isPaused = false;
             myVideo.setPaused(isPaused);
+        }
+        if(gui.resumeMenuShowing){
+            for(int j = 0; j < gui.resumeMenuNumButtons; j++){
+                if(gui.resumeMenuButtons[j].inside(x, y)){
+                    gui.selectResumeButton(j);
+                    gui.resumeMenuShowing = false;
+                }
+            }
         }
         if(gui.numButtons != 0){
             for(int i = 0; i < gui.numButtons; i++){

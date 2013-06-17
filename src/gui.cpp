@@ -3,22 +3,72 @@
 #include "sequence.h"
 
 Gui::Gui(){
+    font.loadFont("fonts/futura.ttc", 20);
     loadingRectStartX = ofGetWidth()/4;
     loadingRectStartY = ofGetHeight()/2;
     loadingRectHeight = 20;
     loadingRectMaxWidth = ofGetWidth()/2;
     timelineStartX = 0;
     numButtons = 5;
-    isShowing = false; 
+    isShowing = false;
+    resumeMenuShowing = false;
     string buttonImageNames [] = {"stop", "pause", "play", "rewind", "fastforward"};
     for(int i = 0; i < numButtons; i++){
         buttonImages[i].loadImage("images/"+buttonImageNames[i]+".png");
     }
-    ofEnableAlphaBlending();
+    resumeButtonValues[0] = "Resume playing";
+    resumeButtonValues[1] = "Start over";
+    resumeButtonValues[2] = "Recut and start over";
+    resumeMenuSelection = "";
     showGuiTimer.setup(0, false); //setup timer. Give it no delay
     showGuiTimer.setTimer(2000); //set the timer
     displayButtons(0, 0); //these two lines of code are smelly because they don't actually do what they say that they do here. They are used to init two vars used in the updateTimeline() mapping process.
     displayTimeline();
+}
+
+//--------------------------------------------------------------
+
+void Gui::displayResumeMenu(int mx, int my){
+    
+    resumeMenuNumButtons = 3;
+    int buttonMarginSides = 40;
+    int buttonMarginTop = 15;
+    int boxColorDefault = 40;
+    int boxColorHovered = 80;
+    int boxWidth = 400; //ofGetWidth()/3;
+    int boxHeight = (font.getLineHeight()+buttonMarginTop)*3;//ofGetHeight()/4;
+    int boxX = ofGetWidth()/2-boxWidth/2;
+    int boxY = ofGetHeight()/2-boxHeight/2;
+    int amountRounded = 10;
+    
+    int buttonsX = boxX+buttonMarginSides;
+    int buttonsY = boxY;
+    
+//    //draw menu box
+//    ofSetColor(boxColorDefault);
+//    ofFill();
+//    ofRectRounded(boxX, boxY, boxWidth, boxHeight, amountRounded);
+    
+    for(int i = 0; i < numButtons; i++){
+        if(resumeMenuButtons[i].inside(mx, my)){
+            ofSetColor(boxColorHovered);
+            cout<<"over button "<<i<<endl;
+        }
+        else ofSetColor(boxColorDefault);
+        resumeMenuButtons[i] = ofRectangle(boxX, buttonsY, boxWidth, font.getLineHeight()+buttonMarginTop);
+        if((i == 0) || (i == numButtons-1)) ofRectRounded(resumeMenuButtons[i], amountRounded);
+        else ofRect(resumeMenuButtons[i]);
+        ofSetColor(255);
+        font.drawString(resumeButtonValues[i], buttonsX, buttonsY+font.getLineHeight());
+        buttonsY += buttonMarginTop+font.getLineHeight();
+    }
+    ofNoFill();
+}
+
+//--------------------------------------------------------------
+
+void Gui::selectResumeButton(int selectedButton){
+    resumeMenuSelection = resumeButtonValues[selectedButton];
 }
 
 //--------------------------------------------------------------
@@ -40,11 +90,6 @@ void Gui::displayLoading(){
     ofRect(loadingRectStartX, loadingRectStartY, amountLoadedMapped, loadingRectHeight);
     ofNoFill();
     ofRect(loadingRectStartX, loadingRectStartY, loadingRectMaxWidth, loadingRectHeight);
-}
-
-//--------------------------------------------------------------
-void Gui::updateButtons(){
-    
 }
 
 //--------------------------------------------------------------

@@ -19,8 +19,12 @@ public:
     void displayPlayIcon();
     void showGui();
     void checkTimer();
+    void updateResumeMenu();
+    void displayResumeMenu(int mx, int my);
+    void selectResumeButton(int selectedButton);
 
     int loadingRectHeight;
+    int resumeMenuNumButtons;
     int numButtons;
     int buttonSize;
     int buttonMargin;
@@ -34,10 +38,15 @@ public:
     float timelineWatchPointX;
     float timelineWidth;
     bool isShowing;
+    bool resumeMenuShowing;
+    string resumeMenuSelection;
+    string resumeButtonValues[3];
+    
     ofRectangle playButtonRect;
     ofRectangle buttonRects[5];
+    ofRectangle resumeMenuButtons[3];
     ofImage buttonImages[5];
     ofxTimer showGuiTimer;
-
+    ofTrueTypeFont font;
 };
 
