@@ -44,19 +44,18 @@ void Gui::displayResumeMenu(int mx, int my){
     int buttonsX = boxX+buttonMarginSides;
     int buttonsY = boxY;
     
-//    //draw menu box
-//    ofSetColor(boxColorDefault);
-//    ofFill();
-//    ofRectRounded(boxX, boxY, boxWidth, boxHeight, amountRounded);
+    //draw menu box
+    ofSetColor(boxColorDefault);
+    ofFill();
+    ofRectRounded(boxX, boxY, boxWidth, boxHeight, amountRounded);
     
-    for(int i = 0; i < numButtons; i++){
+    for(int i = 0; i < resumeMenuNumButtons; i++){
         if(resumeMenuButtons[i].inside(mx, my)){
             ofSetColor(boxColorHovered);
-            cout<<"over button "<<i<<endl;
         }
         else ofSetColor(boxColorDefault);
         resumeMenuButtons[i] = ofRectangle(boxX, buttonsY, boxWidth, font.getLineHeight()+buttonMarginTop);
-        if((i == 0) || (i == numButtons-1)) ofRectRounded(resumeMenuButtons[i], amountRounded);
+        if((i == 0) || (i == resumeMenuNumButtons-1)) ofRectRounded(resumeMenuButtons[i], amountRounded);
         else ofRect(resumeMenuButtons[i]);
         ofSetColor(255);
         font.drawString(resumeButtonValues[i], buttonsX, buttonsY+font.getLineHeight());
@@ -85,8 +84,10 @@ void Gui::updateLoading(long& totalChecked){
 
 //--------------------------------------------------------------
 void Gui::displayLoading(){
-    //ofSetColor(100);
     ofFill();
+    ofSetColor(0);
+    ofRect(0, 0, ofGetWidth(), ofGetHeight()); //draw black background
+    ofSetColor(255);
     ofRect(loadingRectStartX, loadingRectStartY, amountLoadedMapped, loadingRectHeight);
     ofNoFill();
     ofRect(loadingRectStartX, loadingRectStartY, loadingRectMaxWidth, loadingRectHeight);
@@ -121,12 +122,12 @@ void Gui::displayButtons(int mx, int my){
 //--------------------------------------------------------------
 void Gui::updateTimeline(int seqNumber, int totalSeqs){
     timelineWatchPointX = ofMap(seqNumber, 0, totalSeqs, timelineStartX, timelineStartX+timelineWidth);
-    cout<<"the seqNumber is "<<seqNumber<<endl;
-    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
-    cout<<"the min map val is "<<timelineStartX<<endl;
-    cout<<"the max map val is "<<ofToString(timelineStartX+timelineWidth)<<endl;
-    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
-    cout<<"the timelineWatchPointX val is "<<timelineWatchPointX<<endl;
+//    cout<<"the seqNumber is "<<seqNumber<<endl;
+//    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
+//    cout<<"the min map val is "<<timelineStartX<<endl;
+//    cout<<"the max map val is "<<ofToString(timelineStartX+timelineWidth)<<endl;
+//    cout<<"the totalSeqs val is "<<totalSeqs<<endl;
+//    cout<<"the timelineWatchPointX val is "<<timelineWatchPointX<<endl;
 }
 
 //--------------------------------------------------------------

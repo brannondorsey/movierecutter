@@ -12,6 +12,7 @@ class DataHandler{
     void saveSequences(const vector<Sequence> & sequences);
     void loadSequences(vector<Sequence> & sequences);
     int getPlayPointSeqIndex(const vector<Sequence> & sequences);
+    long getPlayPoint();
     bool seqFileExists();
     
     string fileName;
@@ -20,7 +21,6 @@ class DataHandler{
     ofxXmlSettings movieSequences;
 
   protected:
-    long getPlayPoint();
     string getFileNameFromPath(string filePath);
 
 

@@ -41,6 +41,8 @@ class testApp : public ofBaseApp{
         bool isPaused;
         bool seqReady;
         bool isFinished;
+        bool neededLoading;
+        bool movieAlreadySelected;
         string moviePath;
     
         Gui gui;

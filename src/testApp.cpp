@@ -14,7 +14,7 @@ void testApp::setup(){
     seqIndex = 0;
     checkFrameIndex = 2;
     
-    selectMovie();
+    if(!movieAlreadySelected) selectMovie();
     dataHand = DataHandler(moviePath);
     aspectRatio = myVideo.getWidth()/myVideo.getHeight();
     myVideo.setVolume(0.0); //change this to 1.0
@@ -30,7 +30,6 @@ void testApp::update(){
        (needsNewSeq()) &&
        (!isFinished)){
         seqIndex++;
-        cout<<"the sequence index was set to "<<seqIndex<<endl;
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
         dataHand.savePlayPoint(currentSeq.start); //save frame to .playpoint file
@@ -49,28 +48,39 @@ void testApp::update(){
     }
     //if sequence file does not exist set it and show loading
     else if(!dataHand.seqFileExists()){
+        cout<<"the sequence file did not exist. I am loading a new one."<<endl;
         setSequences();
+        neededLoading = true;
         gui.updateLoading(totalChecked);
     }
     //if sequence file exists load it, play it, set seq to ready, pause it, and display resume menu
     else{
         isPaused = true;
         myVideo.setPaused(isPaused);
-        gui.resumeMenuShowing = true;
-        //if there has been a resume menu selection
-        if(gui.resumeMenuSelection != ""){
-            //if selection was resume or start over
-            if(gui.resumeMenuSelection != gui.resumeButtonValues[2]){
+        if(!neededLoading){
+            gui.resumeMenuShowing = true;
+        }
+        //if there has been a resume menu selection or the menu never showed because needed loading
+        if((gui.resumeMenuSelection != "") ||
+           (neededLoading)){
+            //if selection was resume or start over or there was loading needed
+            if((gui.resumeMenuSelection != gui.resumeButtonValues[2]) ||
+               neededLoading){
                 dataHand.loadSequences(sequences);
                 //if selection was resume load previous point and play it
                 if(gui.resumeMenuSelection == gui.resumeButtonValues[0]){
                     seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
+                    cout<<"the seqIndex is "<<seqIndex<<endl;
                     currentSeq = sequences[seqIndex]; // set the loaded sequence
                 }
-                //if selection was start over
-                else currentSeq = sequences[0];
+                //if selection was start over or loading was needed
+                else{
+                    currentSeq = sequences[0];
+                    dataHand.getPlayPoint(); //used to load playpoint
+                }
                 seqReady = true;
                 myVideo.setFrame(currentSeq.start); // and the play point
+                cout<<"the frame was set to "<<currentSeq.start<<endl;
                 gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
                 myVideo.play();
                 isPaused = false;
@@ -78,7 +88,18 @@ void testApp::update(){
             }
             //if the selection was recut and start over
             else{
+                //delete sequence and playpoint files
+                ofFile playPointFile(ofToDataPath("storage/"+dataHand.fileName+".playpoint"));
+                ofFile sequencesFile(ofToDataPath("storage/"+dataHand.fileName+".sequences"));
+                playPointFile.remove();
+                sequencesFile.remove();
                 
+                movieAlreadySelected = true;
+                gui.resumeMenuSelection = "";
+                neededLoading = true;
+                gui.resumeMenuShowing = false; //otherwise will not show menu loading
+                setup();
+                cout<<"just re-ran setup and set neededLoading to true"<<endl;
             }
         }
     }
@@ -86,10 +107,10 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    float width = ofGetWidth();
+    float height = ofGetWidth()/aspectRatio;
+    if(!isFinished) myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
     if(seqReady){
-        float width = ofGetWidth();
-        float height = ofGetWidth()/aspectRatio;
-        if(!isFinished) myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
         if(gui.isShowing){
             gui.displayButtons(mouseX, mouseY);
             gui.displayTimeline();
@@ -97,15 +118,15 @@ void testApp::draw(){
         if(isPaused)gui.displayPlayIcon();
     }
     else{
-        gui.displayLoading();
+        gui.displayResumeMenu(mouseX, mouseY);
+        if(!gui.resumeMenuShowing){
+            gui.displayLoading();
+        }
     }
-    gui.displayResumeMenu(mouseX, mouseY);
 }
 //--------------------------------------------------------------
 void testApp::selectMovie(){
-    cout<<"I got here"<<endl;
     ofFileDialogResult selectedMovie = ofSystemLoadDialog("Select a Movie", false, "");
-    cout<<"I also got here"<<endl;
     moviePath = selectedMovie.getPath();
     if ((moviePath.find(".mov") != string::npos) ||
         (moviePath.find(".MOV") != string::npos) ||

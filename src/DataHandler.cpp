@@ -9,7 +9,6 @@ DataHandler::DataHandler(string _filePath){
 //--------------------------------------------------------------
 bool DataHandler::seqFileExists(){
     if(movieSequences.loadFile("storage/"+fileName+".sequences")){
-        cout<<"found the file and loaded it "<<endl;
         return true; //loaded file
     }
     else return false; //file doesn't exist
