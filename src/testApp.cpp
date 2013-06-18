@@ -31,6 +31,7 @@ void testApp::update(){
        (!isFinished)){
         seqIndex++;
         currentSeq = sequences[seqIndex];
+        cout<<"on sequence number "<<seqIndex<<" out of "<<sequences.size()<<endl;
         myVideo.setFrame(currentSeq.start);
         dataHand.savePlayPoint(currentSeq.start); //save frame to .playpoint file
         gui.updateTimeline(seqIndex, sequences.size());
@@ -38,8 +39,9 @@ void testApp::update(){
     //if the movie is over
     if((seqReady) &&
        (seqIndex == sequences.size())){
-        myVideo.stop();
         isFinished = true;
+        myVideo.stop();
+        dataHand.eraseStorageFiles();
     }
     //if the sequences are ready
     if(seqReady){
@@ -48,25 +50,25 @@ void testApp::update(){
     }
     //if sequence file does not exist set it and show loading
     else if(!dataHand.seqFileExists()){
-        cout<<"the sequence file did not exist. I am loading a new one."<<endl;
         setSequences();
         neededLoading = true;
         gui.updateLoading(totalChecked);
     }
-    //if sequence file exists load it, play it, set seq to ready, pause it, and display resume menu
+    //if sequence file already exists
     else{
         isPaused = true;
         myVideo.setPaused(isPaused);
-        if((!neededLoading)){
-            gui.resumeMenuShowing = true;
-        }
+        //if loading was not needed
+        if(!neededLoading) gui.resumeMenuShowing = true; //if no loading occured it is ok to show the resume menu
+        
         //if there has been a resume menu selection or the menu never showed because needed loading
         if((gui.resumeMenuSelection != "") ||
            (neededLoading)){
             //if selection was resume or start over or there was loading needed
             if((gui.resumeMenuSelection != gui.resumeButtonValues[2]) ||
                neededLoading){
-                dataHand.loadSequences(sequences);
+                sequences.clear(); //make sure that the sequences are empty
+                dataHand.loadSequences(sequences); //parse file.sequences and load them into the sequences vector 
                 //if selection was resume load previous point and play it
                 if(gui.resumeMenuSelection == gui.resumeButtonValues[0]){
                     seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
@@ -75,11 +77,11 @@ void testApp::update(){
                 }
                 //if selection was start over or loading was needed
                 else{
-                    currentSeq = sequences[0];
-                    dataHand.getPlayPoint(); //used to load playpoint
+                    currentSeq = sequences[0]; //start at the first sequence
+                    dataHand.getPlayPoint(); //long function but used to load playpoint in this case
                 }
                 seqReady = true;
-                myVideo.setFrame(currentSeq.start); // and the play point
+                myVideo.setFrame(currentSeq.start);
                 cout<<"the frame was set to "<<currentSeq.start<<endl;
                 gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
                 myVideo.play();
@@ -88,12 +90,7 @@ void testApp::update(){
             }
             //if the selection was recut and start over
             else{
-                //delete sequence and playpoint files
-                ofFile playPointFile(ofToDataPath("storage/"+dataHand.fileName+".playpoint"));
-                ofFile sequencesFile(ofToDataPath("storage/"+dataHand.fileName+".sequences"));
-                playPointFile.remove();
-                sequencesFile.remove();
-                
+                dataHand.eraseStorageFiles();
                 movieAlreadySelected = true;
                 gui.resumeMenuSelection = "";
                 neededLoading = true;
@@ -210,6 +207,7 @@ void testApp::setSequences(){
     }
 }
 
+//--------------------------------------------------------------
 bool testApp::needsNewSeq(){
     if(myVideo.getCurrentFrame() >= currentSeq.stop) return true;
     else return false;

@@ -86,6 +86,16 @@ int DataHandler::getPlayPointSeqIndex(const vector<Sequence> & sequences){
     }
     return -1; //if there is an error return -1 (which should break something)
 }
+
+//--------------------------------------------------------------
+void DataHandler::eraseStorageFiles(){
+    //delete sequence and playpoint files
+    ofFile playPointFile(ofToDataPath("storage/"+fileName+".playpoint"));
+    ofFile sequencesFile(ofToDataPath("storage/"+fileName+".sequences"));
+    playPointFile.remove();
+    sequencesFile.remove();
+}
+
 //--------------------------------------------------------------
 string DataHandler::getFileNameFromPath(string filePath){
     int startIndex = filePath.find_last_of('/')+1;

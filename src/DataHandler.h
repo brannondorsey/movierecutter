@@ -11,6 +11,7 @@ class DataHandler{
     void savePlayPoint(long currentFrame);
     void saveSequences(const vector<Sequence> & sequences);
     void loadSequences(vector<Sequence> & sequences);
+    void eraseStorageFiles();
     int getPlayPointSeqIndex(const vector<Sequence> & sequences);
     long getPlayPoint();
     bool seqFileExists();
