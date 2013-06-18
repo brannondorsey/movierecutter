@@ -57,7 +57,7 @@ void testApp::update(){
     else{
         isPaused = true;
         myVideo.setPaused(isPaused);
-        if(!neededLoading){
+        if((!neededLoading)){
             gui.resumeMenuShowing = true;
         }
         //if there has been a resume menu selection or the menu never showed because needed loading

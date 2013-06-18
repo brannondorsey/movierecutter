@@ -79,6 +79,7 @@ void Gui::initTotalNumFrames(long _totalNumFrames){
 //--------------------------------------------------------------
 void Gui::updateLoading(long& totalChecked){
     amountLoadedMapped = ofMap(totalChecked, 1, totalNumFrames, 0, loadingRectMaxWidth);
+    if(amountLoadedMapped > loadingRectMaxWidth) amountLoadedMapped = loadingRectMaxWidth;
 }
 
 
