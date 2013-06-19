@@ -4,6 +4,7 @@
 
 Gui::Gui(){
     font.loadFont("fonts/futura.ttc", 20);
+    rwndNumbsFont.loadFont("fonts/futura.ttc", 17);
     loadingRectStartX = ofGetWidth()/4;
     loadingRectStartY = ofGetHeight()/2;
     loadingRectHeight = 20;
@@ -100,6 +101,7 @@ void Gui::displayButtons(int mx, int my){
     buttonMargin = 10;
     int buttonsMarginTop = 14;
     int buttonsX = buttonMargin;
+    buttonsHoveredY = -4;
     buttonsY = ofGetHeight()-buttonSize-buttonMargin;
     ofSetColor(120, 75);
     ofFill();
@@ -113,7 +115,7 @@ void Gui::displayButtons(int mx, int my){
         buttonRects[i] = ofRectangle(buttonsX, buttonsY, buttonSize, buttonSize);
         //if over [i] button
         if(buttonRects[i].inside(mx, my)){
-            buttonRects[i].setY(buttonRects[i].getTop()-4);
+            buttonRects[i].setY(buttonRects[i].getTop()-buttonsHoveredY);
         }
         buttonImages[i].draw(buttonRects[i]);
         //if second the button is the last one (fullscreen)
@@ -123,6 +125,23 @@ void Gui::displayButtons(int mx, int my){
         }
         else buttonsX += buttonSize+buttonMargin;
     }
+}
+
+//--------------------------------------------------------------
+void Gui::displayRwndNumbs(const bool &rewinding, const bool &fastForwarding, const int &numbRwnds, int mx, int my){
+    float fontHeight = rwndNumbsFont.getLineHeight();
+    int buttonNumb;
+    (rewinding) ? buttonNumb = 3 : buttonNumb = 4;
+    float y = buttonsY+buttonSize/2+fontHeight-fontHeight/2-4;
+    int x = ((buttonMargin+buttonSize)*buttonNumb)+(buttonSize/2+4);
+    if(buttonRects[buttonNumb].inside(mx, my)) y -= buttonsHoveredY;
+    float numbToDraw = numbRwnds*2;
+    ofSetColor(0);
+    ofFill();
+    
+    rwndNumbsFont.drawString(ofToString(numbToDraw), x, y);
+    ofSetColor(255);
+    ofNoFill();
 }
 
 //--------------------------------------------------------------

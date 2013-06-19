@@ -38,6 +38,7 @@ class testApp : public ofBaseApp{
         int rwndSpeed;
         int origRwndSpeed;
         int maxRwndSpeed;
+        int numbRwnds;
         int speedIncrease;
         long totalChecked;
         float imgPercentNeededToPass;

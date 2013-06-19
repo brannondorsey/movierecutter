@@ -1,6 +1,5 @@
 TODO:
-+ add mouse hand hover state
-+ add rwnd and ffwrd speed icons
++ add icon and change name
 + comment, comment, comment!
 
 COMPLETED:
@@ -15,3 +14,5 @@ COMPLETED:
 - make ffwrd and rwnd work to some degree or remove them //I made them work
 - always show toolbar when mouse is over it
 - hide mouse after delay
+- add rwnd and ffwrd speed icons
+-***add mouse hand hover state*** DECIDED NOT TO

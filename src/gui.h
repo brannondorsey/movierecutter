@@ -21,6 +21,7 @@ public:
     void updateResumeMenu();
     void displayResumeMenu(int mx, int my);
     void selectResumeButton(int selectedButton);
+    void displayRwndNumbs(const bool &rewinding, const bool &fastForwarding, const int &numRwnds, int mx, int my);
 
     int loadingRectHeight;
     int resumeMenuNumButtons;
@@ -28,6 +29,7 @@ public:
     int buttonSize;
     int buttonMargin;
     int buttonsY;
+    int buttonsHoveredY;
     long totalNumFrames;
     float loadingRectStartX;
     float loadingRectStartY;
@@ -48,5 +50,6 @@ public:
     ofImage buttonImages[6];
     ofxTimer showGuiTimer;
     ofTrueTypeFont font;
+    ofTrueTypeFont rwndNumbsFont;
 };
 

@@ -14,10 +14,11 @@ void testApp::setup(){
     
     seqIndex = 0;
     checkFrameIndex = 2;
-    rwndSpeed = 60;
+    rwndSpeed = 67;
     origRwndSpeed = rwndSpeed;
-    maxRwndSpeed = 10;
-    speedIncrease = -30;
+    numbRwnds = 0;
+    maxRwndSpeed = 3;
+    speedIncrease = -21;
     
     if(!movieAlreadySelected) selectMovie();
     dataHand = DataHandler(moviePath);
@@ -50,7 +51,10 @@ void testApp::update(){
     }
     //if the sequences are ready
     if(seqReady){
-        if((rewinding) || (fastForwarding)) changeSpeed();
+        if((rewinding) || (fastForwarding)){
+            changeSpeed();
+            cout<<"numbRwnds is "<<numbRwnds<<endl;
+        }
         myVideo.update();
         if(!isFinished) gui.updateTimeline(seqIndex, sequences.size()); //dont update if movie is over
         gui.checkTimer();
@@ -121,6 +125,9 @@ void testApp::draw(){
         if((gui.isShowing) ||
            (gui.toolbarRect.inside(mouseX, mouseY))){
             gui.displayButtons(mouseX, mouseY);
+            if((rewinding) || (fastForwarding)){
+                gui.displayRwndNumbs(rewinding, fastForwarding, numbRwnds, mouseX, mouseY);
+            }
             gui.displayTimeline();
             //show the cursor
             if((!isCursorShowing)){
@@ -292,7 +299,7 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y){
-    gui.showGui();
+    gui.showGui(); 
 }
 
 //--------------------------------------------------------------
@@ -332,12 +339,14 @@ void testApp::mousePressed(int x, int y, int button){
                             myVideo.setPaused(isPaused);
                             rewinding = false;
                             fastForwarding = false;
+                            numbRwnds = 0;
                             break;
                         case 2: //play button
                             isPaused = false;
                             myVideo.setPaused(isPaused);
                             rewinding = false;
                             fastForwarding = false;
+                            numbRwnds = 0;
                             break;
                         case 3: //rewind button
                             isPaused = true;
@@ -365,10 +374,13 @@ void testApp::mousePressed(int x, int y, int button){
 void testApp::setSpeedChange(bool &typeOfSpeedChange){
     if(typeOfSpeedChange){
         rwndSpeed += speedIncrease;
-        if(rwndSpeed < maxRwndSpeed) rwndSpeed = maxRwndSpeed;
+        if(rwndSpeed < maxRwndSpeed){
+            rwndSpeed = maxRwndSpeed;
+        }
+        else numbRwnds++;
     }
     else{
-        cout<<"BUT I JUSTS STARTED"<<endl;
+        numbRwnds = 1;
         typeOfSpeedChange = true;
         rwndSpeed = origRwndSpeed; //reset rwnd speed
     }
