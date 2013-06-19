@@ -10,6 +10,7 @@ void testApp::setup(){
     isPaused = false;
     isFinished = false;
     seqReady = false;
+    isCursorShowing = true;
     
     seqIndex = 0;
     checkFrameIndex = 2;
@@ -121,13 +122,31 @@ void testApp::draw(){
            (gui.toolbarRect.inside(mouseX, mouseY))){
             gui.displayButtons(mouseX, mouseY);
             gui.displayTimeline();
+            //show the cursor
+            if((!isCursorShowing)){
+                ofShowCursor();
+                isCursorShowing = true;
+            }
+        }
+        else{
+            //hide the cursor
+            if(isCursorShowing){
+                ofHideCursor();
+                isCursorShowing = false;
+            }
         }
         if(isPaused)gui.displayPlayIcon();
     }
+    //if the seaquences are not ready
     else{
         gui.displayResumeMenu(mouseX, mouseY);
         if(!gui.resumeMenuShowing){
             gui.displayLoading();
+        }
+        //show the cursor
+        if(!isCursorShowing){
+            ofShowCursor();
+            isCursorShowing = true;
         }
     }
 } 

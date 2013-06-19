@@ -1,51 +1,19 @@
 <reorderedsequences>
     <sequence>
-        <start>734</start>
-        <stop>778</stop>
+        <start>1405</start>
+        <stop>1499</stop>
     </sequence>
     <sequence>
-        <start>542</start>
-        <stop>601</stop>
-    </sequence>
-    <sequence>
-        <start>1</start>
-        <stop>67</stop>
-    </sequence>
-    <sequence>
-        <start>602</start>
-        <stop>652</stop>
-    </sequence>
-    <sequence>
-        <start>1500</start>
-        <stop>1502</stop>
-    </sequence>
-    <sequence>
-        <start>1195</start>
-        <stop>1241</stop>
-    </sequence>
-    <sequence>
-        <start>653</start>
-        <stop>733</stop>
+        <start>1360</start>
+        <stop>1404</stop>
     </sequence>
     <sequence>
         <start>1297</start>
         <stop>1312</stop>
     </sequence>
     <sequence>
-        <start>68</start>
-        <stop>248</stop>
-    </sequence>
-    <sequence>
-        <start>779</start>
-        <stop>853</stop>
-    </sequence>
-    <sequence>
-        <start>249</start>
-        <stop>476</stop>
-    </sequence>
-    <sequence>
-        <start>1405</start>
-        <stop>1499</stop>
+        <start>1</start>
+        <stop>67</stop>
     </sequence>
     <sequence>
         <start>1281</start>
@@ -56,23 +24,55 @@
         <stop>1139</stop>
     </sequence>
     <sequence>
+        <start>68</start>
+        <stop>248</stop>
+    </sequence>
+    <sequence>
+        <start>1500</start>
+        <stop>1502</stop>
+    </sequence>
+    <sequence>
         <start>1242</start>
         <stop>1280</stop>
     </sequence>
     <sequence>
-        <start>1360</start>
-        <stop>1404</stop>
+        <start>249</start>
+        <stop>476</stop>
+    </sequence>
+    <sequence>
+        <start>734</start>
+        <stop>778</stop>
+    </sequence>
+    <sequence>
+        <start>1195</start>
+        <stop>1241</stop>
+    </sequence>
+    <sequence>
+        <start>1140</start>
+        <stop>1194</stop>
+    </sequence>
+    <sequence>
+        <start>779</start>
+        <stop>853</stop>
+    </sequence>
+    <sequence>
+        <start>602</start>
+        <stop>652</stop>
+    </sequence>
+    <sequence>
+        <start>653</start>
+        <stop>733</stop>
     </sequence>
     <sequence>
         <start>477</start>
         <stop>541</stop>
     </sequence>
     <sequence>
-        <start>1313</start>
-        <stop>1359</stop>
+        <start>542</start>
+        <stop>601</stop>
     </sequence>
     <sequence>
-        <start>1140</start>
-        <stop>1194</stop>
+        <start>1313</start>
+        <stop>1359</stop>
     </sequence>
 </reorderedsequences>

@@ -1,7 +1,5 @@
 TODO:
 + add mouse hand hover state
-+ always show toolbar when mouse is over it
-+ hide mouse after delay
 + add rwnd and ffwrd speed icons
 + comment, comment, comment!
 
@@ -15,3 +13,5 @@ COMPLETED:
 - make fullscreen option
 -***add volume control*** DECIDED NOT TO
 - make ffwrd and rwnd work to some degree or remove them //I made them work
+- always show toolbar when mouse is over it
+- hide mouse after delay
