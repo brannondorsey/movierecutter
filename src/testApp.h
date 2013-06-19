@@ -25,6 +25,7 @@ class testApp : public ofBaseApp{
         void initSequenceVars();
         void setSequences();
         void displayVideo();
+        void changeSpeed();
         bool needsNewSeq();
     
         int numSequences;
@@ -34,9 +35,11 @@ class testApp : public ofBaseApp{
         int checkEveryIncrement;
         int maxPixDiffToPass;
         int numCheckEachFrame;
+        int rwndSpeed;
+        int origRwndSpeed;
+        int maxRwndSpeed;
+        int speedIncrease;
         long totalChecked;
-        int fastForward;
-        int rewind;
         float imgPercentNeededToPass;
         float aspectRatio;
         bool isPaused;
@@ -44,6 +47,8 @@ class testApp : public ofBaseApp{
         bool isFinished;
         bool neededLoading;
         bool movieAlreadySelected;
+        bool rewinding;
+        bool fastForwarding;
         string moviePath;
     
         Gui gui;
@@ -53,5 +58,8 @@ class testApp : public ofBaseApp{
         vector<long> cutFrames;
         ofVideoPlayer myVideo;
         ofPixels prevPixels;
+    
+protected:
+    void setSpeedChange(bool &typeOfSpeedChange);
 
 };

@@ -13,6 +13,10 @@ void testApp::setup(){
     
     seqIndex = 0;
     checkFrameIndex = 2;
+    rwndSpeed = 60;
+    origRwndSpeed = rwndSpeed;
+    maxRwndSpeed = 10;
+    speedIncrease = -30;
     
     if(!movieAlreadySelected) selectMovie();
     dataHand = DataHandler(moviePath);
@@ -25,6 +29,10 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
+    //cout<<"on seq number "<<seqIndex<<endl;
+//    if(fastForwarding) cout<<"I am fast forwarding"<<endl;
+//    else if(rewinding) cout<<"I am rewinding"<<endl;
+//    else cout<<"I am doing neither"<<endl;
     //if the movie is ready, playing, and needs a new sequence
     if((seqReady) &&
        (needsNewSeq()) &&
@@ -33,18 +41,20 @@ void testApp::update(){
         currentSeq = sequences[seqIndex];
         myVideo.setFrame(currentSeq.start);
         dataHand.savePlayPoint(currentSeq.start); //save frame to .playpoint file
-        gui.updateTimeline(seqIndex, sequences.size());
     }
     //if the movie is over
     if((seqReady) &&
-       (seqIndex == sequences.size())){
+       (seqIndex >= sequences.size())){ //changed this from == to >=. Dont know if this messed anything up...
         isFinished = true;
+        gui.updateTimeline(seqIndex, sequences.size()); //make sure that the timeline shows that the movie is done
         myVideo.stop();
         dataHand.eraseStorageFiles();
     }
     //if the sequences are ready
     if(seqReady){
+        if((rewinding) || (fastForwarding)) changeSpeed();
         myVideo.update();
+        if(!isFinished) gui.updateTimeline(seqIndex, sequences.size()); //dont update if movie is over
         gui.checkTimer();
     }
     //if sequence file does not exist set it and show loading
@@ -226,6 +236,21 @@ void testApp::displayVideo(){
 }
 
 //--------------------------------------------------------------
+void testApp::changeSpeed(){
+    if(ofGetFrameNum() % rwndSpeed == 0){
+        (fastForwarding) ? seqIndex++ : seqIndex--;
+        //skip sequence if it is only one frame long
+        if(sequences[seqIndex].start == sequences[seqIndex].stop){
+            (fastForwarding) ? seqIndex++ : seqIndex--;
+        }
+        if(seqIndex <= 0) seqIndex = 0;
+        if(seqIndex >= sequences.size()) seqIndex = sequences.size();
+        currentSeq = sequences[seqIndex];
+        myVideo.setFrame(currentSeq.start);
+        }
+}
+
+//--------------------------------------------------------------
 bool testApp::needsNewSeq(){
     if(myVideo.getCurrentFrame() >= currentSeq.stop) return true;
     else return false;
@@ -237,6 +262,8 @@ void testApp::keyPressed(int key){
         case ' ':
             isPaused = !isPaused;
             myVideo.setPaused(isPaused);
+            fastForwarding = false;
+            rewinding = false;
             break;
     }
 }
@@ -265,6 +292,8 @@ void testApp::mousePressed(int x, int y, int button){
             (isPaused)){
             isPaused = false;
             myVideo.setPaused(isPaused);
+            rewinding = false;
+            fastForwarding = false;
         }
         if(gui.resumeMenuShowing){
             for(int j = 0; j < gui.resumeMenuNumButtons; j++){
@@ -284,22 +313,26 @@ void testApp::mousePressed(int x, int y, int button){
                         case 1: //pause button
                             isPaused = true;
                             myVideo.setPaused(isPaused);
-                            rewind = 0; 
-                            fastForward = 0;
+                            rewinding = false;
+                            fastForwarding = false;
                             break;
                         case 2: //play button
                             isPaused = false;
                             myVideo.setPaused(isPaused);
-                            rewind = 0;
-                            fastForward = 0;
+                            rewinding = false;
+                            fastForwarding = false;
                             break;
                         case 3: //rewind button
-                            rewind++;
-                            fastForward = 0;
+                            isPaused = true;
+                            myVideo.setPaused(isPaused);
+                            setSpeedChange(rewinding);
+                            fastForwarding = false;
                             break;
                         case 4: //fastforward button
-                            fastForward++;
-                            rewind = 0;
+                            isPaused = true;
+                            myVideo.setPaused(isPaused);
+                            setSpeedChange(fastForwarding);
+                            rewinding = false;
                             break;
                         case 5: //fullscreen button
                             ofToggleFullscreen();
@@ -308,6 +341,19 @@ void testApp::mousePressed(int x, int y, int button){
                 }
             }
         }
+    }
+}
+
+//--------------------------------------------------------------
+void testApp::setSpeedChange(bool &typeOfSpeedChange){
+    if(typeOfSpeedChange){
+        rwndSpeed += speedIncrease;
+        if(rwndSpeed < maxRwndSpeed) rwndSpeed = maxRwndSpeed;
+    }
+    else{
+        cout<<"BUT I JUSTS STARTED"<<endl;
+        typeOfSpeedChange = true;
+        rwndSpeed = origRwndSpeed; //reset rwnd speed
     }
 }
 
