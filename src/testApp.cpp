@@ -261,6 +261,7 @@ void testApp::mousePressed(int x, int y, int button){
                 if(gui.buttonRects[i].inside(x, y)){
                     switch(i){
                         case 0: //stop button
+                            ofExit();
                             break;
                         case 1: //pause button
                             isPaused = true;
