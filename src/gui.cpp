@@ -9,10 +9,10 @@ Gui::Gui(){
     loadingRectHeight = 20;
     loadingRectMaxWidth = ofGetWidth()/2;
     timelineStartX = 0;
-    numButtons = 5;
+    numButtons = 6;
     isShowing = false;
     resumeMenuShowing = false;
-    string buttonImageNames [] = {"stop", "pause", "play", "rewind", "fastforward"};
+    string buttonImageNames [] = {"stop", "pause", "play", "rewind", "fastforward", "fullscreen"};
     for(int i = 0; i < numButtons; i++){
         buttonImages[i].loadImage("images/"+buttonImageNames[i]+".png");
     }
@@ -115,9 +115,13 @@ void Gui::displayButtons(int mx, int my){
             buttonRects[i].setY(buttonRects[i].getTop()-4);
         }
         buttonImages[i].draw(buttonRects[i]);
-        buttonsX += buttonSize+buttonMargin;
+        //if second the button is the last one (fullscreen)
+        if(i == numButtons-2){
+            timelineStartX = buttonsX+buttonSize+buttonMargin;
+            buttonsX = ofGetWidth()-buttonMargin-buttonSize;
+        }
+        else buttonsX += buttonSize+buttonMargin;
     }
-    timelineStartX = buttonsX;
 }
 
 //--------------------------------------------------------------
@@ -139,7 +143,7 @@ void Gui::displayTimeline(){
     
     
     //draw timeline
-    timelineWidth = ofGetWidth()-timelineStartX-buttonMargin;
+    timelineWidth = ofGetWidth()-timelineStartX-buttonSize-buttonMargin*2;
     ofSetColor(0);
     ofFill();
     ofRectangle timeline = ofRectangle(timelineStartX, buttonsY, timelineWidth, buttonSize);

@@ -43,9 +43,9 @@ public:
     string resumeButtonValues[3];
     
     ofRectangle playButtonRect;
-    ofRectangle buttonRects[5];
+    ofRectangle buttonRects[6];
     ofRectangle resumeMenuButtons[3];
-    ofImage buttonImages[5];
+    ofImage buttonImages[6];
     ofxTimer showGuiTimer;
     ofTrueTypeFont font;
 };

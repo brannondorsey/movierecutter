@@ -1,6 +1,4 @@
 TODO:
-+ make fullscreen option
-+ 
 + add volume control
 + make ffwrd and rwnd work to some degree or remove them
 + comment, comment, comment!
@@ -12,3 +10,4 @@ COMPLETED:
 - do not show resume menu if movie previously reached its end
 -***add replay button when movie stops*** DECIDED NOT TO
 - make stop button work (probably exit the program or something).
+- make fullscreen option

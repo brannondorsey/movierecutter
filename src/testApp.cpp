@@ -31,7 +31,6 @@ void testApp::update(){
        (!isFinished)){
         seqIndex++;
         currentSeq = sequences[seqIndex];
-        cout<<"on sequence number "<<seqIndex<<" out of "<<sequences.size()<<endl;
         myVideo.setFrame(currentSeq.start);
         dataHand.savePlayPoint(currentSeq.start); //save frame to .playpoint file
         gui.updateTimeline(seqIndex, sequences.size());
@@ -302,12 +301,14 @@ void testApp::mousePressed(int x, int y, int button){
                             fastForward++;
                             rewind = 0;
                             break;
+                        case 5: //fullscreen button
+                            ofToggleFullscreen();
+                            break;
                     }
                 }
             }
         }
     }
-    else ofToggleFullscreen();
 }
 
 //--------------------------------------------------------------
