@@ -103,7 +103,8 @@ void Gui::displayButtons(int mx, int my){
     buttonsY = ofGetHeight()-buttonSize-buttonMargin;
     ofSetColor(120, 75);
     ofFill();
-    ofRect(0, buttonsY-buttonsMarginTop, ofGetWidth(), buttonSize+buttonMargin+buttonsMarginTop);
+    toolbarRect = ofRectangle(0, buttonsY-buttonsMarginTop, ofGetWidth(), buttonSize+buttonMargin+buttonsMarginTop);
+    ofRect(toolbarRect);
     
     ofSetColor(255); //reset fill and color
     ofNoFill();

@@ -30,9 +30,6 @@ void testApp::setup(){
 //--------------------------------------------------------------
 void testApp::update(){
     //cout<<"on seq number "<<seqIndex<<endl;
-//    if(fastForwarding) cout<<"I am fast forwarding"<<endl;
-//    else if(rewinding) cout<<"I am rewinding"<<endl;
-//    else cout<<"I am doing neither"<<endl;
     //if the movie is ready, playing, and needs a new sequence
     if((seqReady) &&
        (needsNewSeq()) &&
@@ -120,7 +117,8 @@ void testApp::update(){
 void testApp::draw(){
     if(!isFinished) displayVideo();
     if(seqReady){
-        if(gui.isShowing){
+        if((gui.isShowing) ||
+           (gui.toolbarRect.inside(mouseX, mouseY))){
             gui.displayButtons(mouseX, mouseY);
             gui.displayTimeline();
         }

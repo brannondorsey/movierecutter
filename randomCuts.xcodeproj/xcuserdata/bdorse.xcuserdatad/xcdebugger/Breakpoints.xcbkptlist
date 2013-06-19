@@ -4,17 +4,17 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "../../../libs/openFrameworks/utils/ofSystemUtils.cpp"
-         timestampString = "393268079.949843"
+         filePath = "src/testApp.cpp"
+         timestampString = "393357482.94088"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "311"
-         endingLineNumber = "311"
-         landmarkName = "ofSystemLoadDialog(string windowTitle, bool bFolderSelection, string defaultPath)"
-         landmarkType = "7">
+         startingLineNumber = "74"
+         endingLineNumber = "74"
+         landmarkName = "testApp::update()"
+         landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

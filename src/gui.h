@@ -12,7 +12,6 @@ public:
     void initTotalNumFrames(long _totalNumFrames);
     void updateLoading(long& totalChecked);
     void displayLoading();
-    void updateButtons();
     void displayButtons(int mx, int my);
     void updateTimeline(int seqNumber, int totalSeqs);
     void displayTimeline();
@@ -45,6 +44,7 @@ public:
     ofRectangle playButtonRect;
     ofRectangle buttonRects[6];
     ofRectangle resumeMenuButtons[3];
+    ofRectangle toolbarRect;
     ofImage buttonImages[6];
     ofxTimer showGuiTimer;
     ofTrueTypeFont font;
