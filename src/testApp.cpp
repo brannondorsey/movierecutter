@@ -99,6 +99,11 @@ void testApp::update(){
                 cout<<"just re-ran setup and set neededLoading to true"<<endl;
             }
         }
+        //if there has not been a selection set the frame to the playpoint and update the image shown behind resume menu
+        else{
+            myVideo.setFrame(dataHand.getPlayPoint());
+            myVideo.update();
+        }
     }
 }
 
@@ -106,7 +111,9 @@ void testApp::update(){
 void testApp::draw(){
     float width = ofGetWidth();
     float height = ofGetWidth()/aspectRatio;
-    if(!isFinished) myVideo.draw(0, (ofGetHeight()-height)/2, width, height);
+    if(!isFinished){
+        myVideo.draw(0, (ofGetHeight()-height)/2, width, height);   
+    }
     if(seqReady){
         if(gui.isShowing){
             gui.displayButtons(mouseX, mouseY);

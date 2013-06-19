@@ -52,5 +52,5 @@ class testApp : public ofBaseApp{
         vector<long> cutFrames;
         ofVideoPlayer myVideo;
         ofPixels prevPixels;
-    
+
 };
