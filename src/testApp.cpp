@@ -109,11 +109,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    float width = ofGetWidth();
-    float height = ofGetWidth()/aspectRatio;
-    if(!isFinished){
-        myVideo.draw(0, (ofGetHeight()-height)/2, width, height);   
-    }
+    if(!isFinished) displayVideo();
     if(seqReady){
         if(gui.isShowing){
             gui.displayButtons(mouseX, mouseY);
@@ -127,7 +123,7 @@ void testApp::draw(){
             gui.displayLoading();
         }
     }
-}
+} 
 //--------------------------------------------------------------
 void testApp::selectMovie(){
     ofFileDialogResult selectedMovie = ofSystemLoadDialog("Select a Movie", false, "");
@@ -159,6 +155,7 @@ void testApp::initSequenceVars(){
     prevPixels = ofPixels(myVideo.getPixelsRef());
 }
 
+//--------------------------------------------------------------
 void testApp::setSequences(){
     
     int stopThisCheck = checkFrameIndex+numCheckEachFrame;
@@ -212,6 +209,21 @@ void testApp::setSequences(){
             setup();
         }
     }
+}
+
+//--------------------------------------------------------------
+void testApp::displayVideo(){
+    float width = ofGetWidth();
+    float height = ofGetWidth()/aspectRatio;
+    float x = 0;
+    float y = (ofGetHeight()-height)/2;
+    if(height > ofGetHeight()){
+        height = ofGetHeight();
+        width = ofGetHeight()*aspectRatio;
+        x = (ofGetWidth()-width)/2;
+        y = 0;
+    }
+    myVideo.draw(x, y, width, height);
 }
 
 //--------------------------------------------------------------
@@ -295,6 +307,7 @@ void testApp::mousePressed(int x, int y, int button){
             }
         }
     }
+    else ofToggleFullscreen();
 }
 
 //--------------------------------------------------------------

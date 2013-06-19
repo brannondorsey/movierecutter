@@ -1,5 +1,6 @@
 TODO:
 + make fullscreen option
++ 
 + add volume control
 + make ffwrd and rwnd work to some degree or remove them
 + comment, comment, comment!

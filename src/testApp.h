@@ -24,6 +24,7 @@ class testApp : public ofBaseApp{
         void selectMovie();
         void initSequenceVars();
         void setSequences();
+        void displayVideo();
         bool needsNewSeq();
     
         int numSequences;
