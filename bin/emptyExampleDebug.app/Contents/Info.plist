@@ -6,8 +6,12 @@
 	<string>11G63</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDisplayName</key>
+	<string>Recutter</string>
 	<key>CFBundleExecutable</key>
 	<string>emptyExampleDebug</string>
+	<key>CFBundleIconFile</key>
+	<string>icon.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.yourcompany.openFrameworks</string>
 	<key>CFBundleInfoDictionaryVersion</key>

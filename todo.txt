@@ -1,5 +1,4 @@
 TODO:
-+ add icon and change name
 + comment, comment, comment!
 
 COMPLETED:
@@ -16,3 +15,4 @@ COMPLETED:
 - hide mouse after delay
 - add rwnd and ffwrd speed icons
 -***add mouse hand hover state*** DECIDED NOT TO
+- add icon and change name
