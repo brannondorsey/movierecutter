@@ -23,7 +23,7 @@ void testApp::setup(){
     if(!movieAlreadySelected) selectMovie();
     dataHand = DataHandler(moviePath);
     aspectRatio = myVideo.getWidth()/myVideo.getHeight();
-    myVideo.setVolume(0.0); //change this to 1.0
+    myVideo.setVolume(1.0); //change this to 1.0
     myVideo.setLoopState(OF_LOOP_NORMAL);
     gui.initTotalNumFrames(myVideo.getTotalNumFrames());
     initSequenceVars();

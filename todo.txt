@@ -1,5 +1,9 @@
 TODO:
 + comment, comment, comment!
++ make sure that it works with longer movies (i.e. everything that should be using long is instead of int)
++ restyle resume menu
++ update README
++ add more accepted movie types
 
 COMPLETED:
 - fix timeline so that it updates correctly.
