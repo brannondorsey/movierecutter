@@ -7,6 +7,25 @@ DataHandler::DataHandler(string _filePath){
 }
 
 //--------------------------------------------------------------
+void DataHandler::loadSettings(int& pixelThreshold, float& imgPercentNeededToPass,
+                               int& checkEveryIncrement, int& numCheckEachFrame){
+    ofxXmlSettings settings;
+    settings.loadFile("settings.xml");
+    settings.pushTag("settings");
+    //percent similarity each individual pixel needs to pass
+    pixelThreshold = settings.getValue("pixel_threshold", 25);
+    //percent of pixels that must pass threshold test
+    imgPercentNeededToPass = float(settings.getValue("img_percent_needed_to_pass", 80));
+    //number of pixels before next pixel comparison
+    checkEveryIncrement = float(settings.getValue("check_every_increment", 10));
+    //number of movie frames to set each frame of the program
+    numCheckEachFrame = settings.getValue("num_check_each_frame", 40);
+    settings.popTag();
+    //cout<<"The loaded settings are "<<pixelThreshold<<", "<<imgPercentNeededToPass<<", "<<checkEveryIncrement<<", "<<numCheckEachFrame<<endl;
+}
+
+
+//--------------------------------------------------------------
 bool DataHandler::seqFileExists(){
     if(movieSequences.loadFile("storage/"+fileName+".sequences")){
         return true; //loaded file

@@ -181,11 +181,8 @@ void testApp::selectMovie(){
 
 //--------------------------------------------------------------
 void testApp::initSequenceVars(){
-    pixelThreshold = 25; //percent similarity each individual pixel needs to pass
-    imgPercentNeededToPass = 80; //percent of pixels that must pass threshold test
-    checkEveryIncrement = 10; //number of pixels before next pixel comparison
+    dataHand.loadSettings(pixelThreshold, imgPercentNeededToPass, checkEveryIncrement, numCheckEachFrame);
     maxPixDiffToPass = (pixelThreshold*255)/100; //converts percent to a max pixel change value
-    numCheckEachFrame = 40; //number of movie frames to set each frame of the program
     totalChecked = 0;
     myVideo.setFrame(1);
     prevPixels = ofPixels(myVideo.getPixelsRef());

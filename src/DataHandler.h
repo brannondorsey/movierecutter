@@ -12,6 +12,10 @@ class DataHandler{
     void saveSequences(const vector<Sequence> & sequences);
     void loadSequences(vector<Sequence> & sequences);
     void eraseStorageFiles();
+    void loadSettings(int& pixelThreshold,
+                      float& imgPercentNeededToPass,
+                      int& checkEveryIncrement,
+                      int& numCheckEachFrame);
     int getPlayPointSeqIndex(const vector<Sequence> & sequences);
     long getPlayPoint();
     bool seqFileExists();
