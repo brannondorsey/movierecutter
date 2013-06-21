@@ -3,7 +3,12 @@ TODO:
 + make sure that it works with longer movies (i.e. everything that should be using long is instead of int)
 + restyle resume menu
 + update README
-+ add more accepted movie types
++ make pause when finished loading
++ clean up update conditionals
++ external settings
++ make checkEveryIncrement dependent on movie dimensions
++ speed things up!
++ fix ofToggleFullscreen mouse disable bug
 
 COMPLETED:
 - fix timeline so that it updates correctly.
@@ -20,3 +25,4 @@ COMPLETED:
 - add rwnd and ffwrd speed icons
 -***add mouse hand hover state*** DECIDED NOT TO
 - add icon and change name
+- add more accepted movie types

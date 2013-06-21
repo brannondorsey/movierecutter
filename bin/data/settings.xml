@@ -1,0 +1,6 @@
+<settings>
+    <pixel_threshold>25</pixel_threshold> //percent similarity each individual pixel needs to pass
+    <img_percent_needed_to_pass>80</img_percent_needed_to_pass> //percent of pixels that must pass threshold test
+    <check_every_increment>10</check_every_increment> //number of pixels before next pixel comparison
+    <num_check_each_frame>40</num_check_each_frame> //number of movie frames to set each frame of the program
+</settings>

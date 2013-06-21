@@ -30,7 +30,6 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    //cout<<"on seq number "<<seqIndex<<endl;
     //if the movie is ready, playing, and needs a new sequence
     if((seqReady) &&
        (needsNewSeq()) &&
@@ -46,13 +45,13 @@ void testApp::update(){
         isFinished = true;
         gui.updateTimeline(seqIndex, sequences.size()); //make sure that the timeline shows that the movie is done
         myVideo.stop();
+        myVideo.closeMovie();
         dataHand.eraseStorageFiles();
     }
     //if the sequences are ready
     if(seqReady){
         if((rewinding) || (fastForwarding)){
             changeSpeed();
-            cout<<"numbRwnds is "<<numbRwnds<<endl;
         }
         myVideo.update();
         if(!isFinished) gui.updateTimeline(seqIndex, sequences.size()); //dont update if movie is over
@@ -84,18 +83,19 @@ void testApp::update(){
                     seqIndex = dataHand.getPlayPointSeqIndex(sequences); //loads seqIndex from info from file.playpoint
                     cout<<"the seqIndex is "<<seqIndex<<endl;
                     currentSeq = sequences[seqIndex]; // set the loaded sequence
+                    isPaused = false; //start automatically
                 }
                 //if selection was start over or loading was needed
                 else{
                     currentSeq = sequences[0]; //start at the first sequence
                     dataHand.getPlayPoint(); //long function but used to load playpoint in this case
+                    isPaused = true; //pause in case user is away or something
                 }
                 seqReady = true;
                 myVideo.setFrame(currentSeq.start);
                 cout<<"the frame was set to "<<currentSeq.start<<endl;
                 gui.updateTimeline(seqIndex, sequences.size()); //and update the timeline
                 myVideo.play();
-                isPaused = false;
                 myVideo.setPaused(isPaused);
             }
             //if the selection was recut and start over
@@ -163,7 +163,11 @@ void testApp::selectMovie(){
     if ((moviePath.find(".mov") != string::npos) ||
         (moviePath.find(".MOV") != string::npos) ||
         (moviePath.find(".mp4") != string::npos) ||
-        (moviePath.find(".MP4") != string::npos)){
+        (moviePath.find(".MP4") != string::npos) ||
+        (moviePath.find(".avi") != string::npos) ||
+        (moviePath.find(".AVI") != string::npos) ||
+        (moviePath.find(".dv") != string::npos) ||
+        (moviePath.find(".DV") != string::npos)){
         myVideo.loadMovie(moviePath);
     }
     else if(moviePath != ""){
@@ -214,8 +218,9 @@ void testApp::setSequences(){
 
         prevPixels = ofPixels(pixelsRef);
         totalChecked++;
+        cout<<"just checked frame number "<<checkFrameIndex<<endl;
     }//go to next frame
-    
+    cout<<"THE FRAME RATE IS "<<ofGetFrameRate()<<endl;
     if(checkFrameIndex >= myVideo.getTotalNumFrames()){
         cout<<"there are "+ofToString(cutFrames.size())<<" cuts in this movie"<<endl;
         if(cutFrames.size() > 0){
