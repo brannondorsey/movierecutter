@@ -3,12 +3,11 @@ TODO:
 + make sure that it works with longer movies (i.e. everything that should be using long is instead of int)
 + restyle resume menu
 + update README
-+ make pause when finished loading
 + clean up update conditionals
-+ external settings
 + make checkEveryIncrement dependent on movie dimensions
 + speed things up!
 + fix ofToggleFullscreen mouse disable bug
++ test settings efficiency and correctness
 
 COMPLETED:
 - fix timeline so that it updates correctly.
@@ -26,3 +25,5 @@ COMPLETED:
 -***add mouse hand hover state*** DECIDED NOT TO
 - add icon and change name
 - add more accepted movie types
+- external settings
+- make pause when finished loading
